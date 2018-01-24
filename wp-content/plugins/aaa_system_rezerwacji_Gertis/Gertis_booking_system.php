@@ -20,6 +20,7 @@ require_once 'libs/Gertis_EmailEntry.php';
 require_once 'libs/Gertis_Pagination.php';
 require_once 'libs/Request.php';
 require_once 'libs/shortcodes.php';
+require_once 'libs/cron-schedules.php';
 
 
 class Gertis_booking_system{

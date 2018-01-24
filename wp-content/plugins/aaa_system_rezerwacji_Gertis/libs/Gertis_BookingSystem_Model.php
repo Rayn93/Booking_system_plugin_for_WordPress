@@ -725,4 +725,15 @@ class Gertis_BookingSystem_Model{
 //    }
 
 
+    //Zmienia status na nieaktualny dla wszystkich wydarzeń które data startu jest starsza niż dzień dzisiejszy (wykorzystanie CRON)
+    public function changeOldEventsStatus(){
+
+        $table_name = $this->getTableNameEvent();
+        $sql = "UPDATE {$table_name} SET status = 'no' WHERE start_date < CURRENT_DATE()";
+
+        return $this->wpdb->query($sql);
+
+    }
+
+
 }
