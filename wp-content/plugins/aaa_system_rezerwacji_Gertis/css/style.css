@@ -1,0 +1,61 @@
+#theme-page select {
+    border: 1px solid #e3e3e3;
+    background: url(../../images/selectbox-arrow.png) right center no-repeat;
+    background-color: #fff !important;
+    appearance: none;
+     padding: 7px 0px 5px 9px !important;
+    /* font-size: 12px; */
+    /* line-height: 14px; */
+    color: #252525;
+}
+
+a.credential{
+    color: #0A246A;
+    font-weight: bold;
+}
+
+#booking_system_form .my_errors{
+    text-align: center;
+    padding: 40px 0;
+    font-size: 20px;
+    color: red;
+}
+
+.confirmation_page p{
+    font-size: 17px !important;
+}
+
+.paypal_button{
+    width: 200px;
+    margin: 0 auto;
+    display: block;
+}
+
+table.event_table{
+    border: 3px solid;
+
+}
+
+table.event_table th{
+    background: #0088cc;
+    color: #fff;
+}
+
+table.event_table tr:nth-child(odd){
+    background: rgb(208, 241, 255)
+}
+
+table.event_table a.booking{
+    display: inline-block;
+    background: #004289;
+    color: #fff;
+    padding: 5px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    transition: 0.5s;
+}
+
+table.event_table a.booking:hover{
+    background: #e2001a;
+}
+

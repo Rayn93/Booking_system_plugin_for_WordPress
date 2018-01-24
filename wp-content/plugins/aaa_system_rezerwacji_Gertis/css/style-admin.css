@@ -1,0 +1,25 @@
+p.error{
+    color: red;
+}
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.alternate {
+    background-color: #dadada;
+}
+
+#table2excel{
+    table-layout: fixed;
+}
+
+#table2excel td{
+    word-wrap:break-word;
+    text-align: center;
+}
+
+#table2excel td.nocenter{
+    text-align: left;
+}
