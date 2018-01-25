@@ -1,4 +1,13 @@
 <?php $Model = new Gertis_BookingSystem_Model() ?>
+
+<?php $event_code = $_GET['event_code']; ?>
+
+<!--Filtrowanie listy z kodami imprez-->
+<ul class="subsubsub">
+    <li><a href="<?php echo $this->getAdminPageUrl('', array('view' => 'event-form', 'eventid' => $item['id'])); ?> ?>" ></a> </li>
+</ul>
+
+
 <form method="get" action="<?php echo $this->getAdminPageUrl(); ?>" id="gertis-events-form-1">
 
     <input type="hidden" name="page" value="<?php echo static::$plugin_id; ?>" />

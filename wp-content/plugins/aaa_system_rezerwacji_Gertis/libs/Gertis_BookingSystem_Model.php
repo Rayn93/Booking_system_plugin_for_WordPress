@@ -247,7 +247,7 @@ class Gertis_BookingSystem_Model{
     }
 
 
-    function getEventPagination($curr_page, $limit = 10, $order_by = 'id', $order_dir = 'asc'){
+    function getEventPagination($curr_page, $limit = 10, $order_by = 'id', $order_dir = 'asc', $event_code){
 
         $curr_page = (int)$curr_page;
         if($curr_page < 1){
@@ -265,13 +265,19 @@ class Gertis_BookingSystem_Model{
 
         $table_name = $this->getTableNameEvent();
 
-        $count_sql = "SELECT COUNT(*) FROM {$table_name}";
+
+        //Sprawdzenie czy mają być wyciągane wszystkie wydarzenia czy z konkretnego event_turn
+        if($event_code != ''){
+            $sql = "SELECT * FROM {$table_name} WHERE event_code = '{$event_code}' ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
+            $count_sql = "SELECT COUNT(*) FROM {$table_name} WHERE event_code = '{$event_code}'";
+        }
+        else{
+            $sql = "SELECT * FROM {$table_name} ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
+            $count_sql = "SELECT COUNT(*) FROM {$table_name}";
+        }
+
         $total_count = $this->wpdb->get_var($count_sql);
-
         $last_page = ceil($total_count/$limit);
-
-        $sql = "SELECT * FROM {$table_name} ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
-
 
         $event_list = $this->wpdb->get_results($sql, ARRAY_A);
         //$event_list = $this->wpdb->get_results($sql);
@@ -542,7 +548,17 @@ class Gertis_BookingSystem_Model{
         }
 
         return $event_list;
+    }
 
+    //Zwraca listę z wszystkimi kodami wydarzeń
+    function getEventCodeList(){
+
+        $table_name = $this->getTableNameEvent();
+        $sql = 'SELECT DISTINCT event_code FROM '.$table_name;
+        $event_list = $this->wpdb->get_results($sql, ARRAY_A);
+
+        return $event_list;
+        
     }
 
     //Funkcja zwraca wszystkie dostępne terminy

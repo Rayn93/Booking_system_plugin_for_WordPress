@@ -67,7 +67,8 @@ class Gertis_booking_system{
 //            'fff@example.pro'
 //        );
 //
-//        var_dump($EventList);
+       $EventList = $this->model->getEventCodeList();
+       var_dump($EventList);
 
     }
 
@@ -162,6 +163,7 @@ class Gertis_booking_system{
         $view = $request->getQuerySingleParam('view', 'events');
         $action = $request->getQuerySingleParam('action');
         $eventid = (int)$request->getQuerySingleParam('eventid');
+        $event_code = $request->getQuerySingleParam('event_code');
 
         switch ($view) {
             case 'events':
@@ -225,7 +227,7 @@ class Gertis_booking_system{
                 $order_by = $request->getQuerySingleParam('orderby', 'id');
                 $order_dir = $request->getQuerySingleParam('orderdir', 'asc');
 
-                $pagination = $this->model->getEventPagination($curr_page, $this->pagination_limit, $order_by, $order_dir);
+                $pagination = $this->model->getEventPagination($curr_page, $this->pagination_limit, $order_by, $order_dir, $event_code);
 
 
                 $this->renderEvent('events', array('Pagination' => $pagination));
