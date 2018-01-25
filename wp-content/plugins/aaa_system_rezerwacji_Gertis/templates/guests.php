@@ -54,7 +54,16 @@
 <!---->
 <!--    </div>-->
 
+    <div class="alignright actions">
+        <input type="search" id="post-search-input" name="search" value="">
+        <input type="submit" id="search-submit" class="button" value="Szukaj uczestnika">
+    </div>
+
 </form>
+
+<!--<form action="--><?php //echo $this->getAdminPageUrl('-guests', array('view' => 'guests', 'action' => 'search')); ?><!--" method="post" id="gertis-guests-form-3" >-->
+<!--    -->
+<!--</form>-->
 
 <?php endif; ?>
 
@@ -62,89 +71,88 @@
 
     <?php wp_nonce_field($this->action_token.'bulk'); ?>
 
-    <?php if(!isset($_GET['action']) && $_GET['action'] != 'members'): ?>
-    <div class="tablenav">
+    <?php if(!isset($_GET['action'])):?>
+            <div class="tablenav">
 
-        <div class="alignleft actions bulkactions">
+                <div class="alignleft actions bulkactions">
 
-            <select name="bulkaction">
-                <option value="0">Masowe działania</option>
-                <option value="delete">Usuń</option>
-                <option value="waiting">Niepotwierdzony</option>
-                <option value="resign">Anulowane</option>
-                <option value="old">Zakończony</option>
-            </select>
+                    <select name="bulkaction">
+                        <option value="0">Masowe działania</option>
+                        <option value="delete">Usuń</option>
+                        <option value="waiting">Niepotwierdzony</option>
+                        <option value="resign">Anulowane</option>
+                        <option value="old">Zakończony</option>
+                    </select>
 
-            <input type="submit" class="button-secondary" value="Zastosuj" />
+                    <input type="submit" class="button-secondary" value="Zastosuj" />
 
-        </div>
+                </div>
 
-        <div class="tablenav-pages">
-            <span class="displaying-num"><?php  echo $Pagination->getTotalCount(); ?> Uczestników</span>
+                <div class="tablenav-pages">
+                    <span class="displaying-num"><?php  echo $Pagination->getTotalCount(); ?> Uczestników</span>
 
-            <?php
-            $curr_page = $Pagination->getCurrPage();
-            $last_page = $Pagination->getLastPage();
+                    <?php
+                    $curr_page = $Pagination->getCurrPage();
+                    $last_page = $Pagination->getLastPage();
 
-            $first_disabled = '';
-            $last_disabled = '';
+                    $first_disabled = '';
+                    $last_disabled = '';
 
-            $url_params = array(
-                'orderby' => $Pagination->getOrderBy(),
-                'orderdir' => $Pagination->getOrderDir()
-            );
-
-
-            $url_params['paged'] = 1;
-            $first_page_url = $this->getAdminPageUrl('-guests', $url_params);
-
-            $url_params['paged'] = $curr_page-1;
-            $prev_page_url = $this->getAdminPageUrl('-guests', $url_params);
-
-            $url_params['paged'] = $last_page;
-            $last_page_url = $this->getAdminPageUrl('-guests', $url_params);
-
-            $url_params['paged'] = $curr_page+1;
-            $next_page_url = $this->getAdminPageUrl('-guests', $url_params);
+                    $url_params = array(
+                        'orderby' => $Pagination->getOrderBy(),
+                        'orderdir' => $Pagination->getOrderDir()
+                    );
 
 
-            if($curr_page == 1){
-                $first_page_url = '#';
-                $prev_page_url = '#';
+                    $url_params['paged'] = 1;
+                    $first_page_url = $this->getAdminPageUrl('-guests', $url_params);
 
-                $first_disabled = 'disabled';
-            }
-            if($curr_page == $last_page){
-                $last_page_url = '#';
-                $next_page_url = '#';
+                    $url_params['paged'] = $curr_page-1;
+                    $prev_page_url = $this->getAdminPageUrl('-guests', $url_params);
 
-                $last_disabled = 'disabled';
-            }
-            ?>
+                    $url_params['paged'] = $last_page;
+                    $last_page_url = $this->getAdminPageUrl('-guests', $url_params);
 
-            <span class="pagination-links">
-                <a href="<?php echo $first_page_url; ?>" title="Idź do pierwszej strony" class="first-page <?php echo $first_disabled; ?>">«</a>&nbsp;&nbsp;
-                <a href="<?php echo $prev_page_url; ?>" title="Idź do poprzedniej strony" class="prev-page <?php echo $first_disabled; ?>">‹</a>&nbsp;&nbsp;
+                    $url_params['paged'] = $curr_page+1;
+                    $next_page_url = $this->getAdminPageUrl('-guests', $url_params);
 
-                <span class="paging-input"><?php echo $curr_page ?> z <span class="total-pages"><?php echo $last_page ?></span></span>
 
-                &nbsp;&nbsp;<a href="<?php echo $next_page_url; ?>" title="Idź do następnej strony" class="next-page <?php echo $last_disabled; ?>">›</a>
-                &nbsp;&nbsp;<a href="<?php echo $last_page_url; ?>" title="Idź do ostatniej strony" class="last-page <?php echo $last_disabled; ?>">»</a>
+                    if($curr_page == 1){
+                        $first_page_url = '#';
+                        $prev_page_url = '#';
 
-            </span>
-        </div>
+                        $first_disabled = 'disabled';
+                    }
+                    if($curr_page == $last_page){
+                        $last_page_url = '#';
+                        $next_page_url = '#';
 
-        <div class="clear"></div>
+                        $last_disabled = 'disabled';
+                    }
+                    ?>
 
-    </div>
+                    <span class="pagination-links">
+                        <a href="<?php echo $first_page_url; ?>" title="Idź do pierwszej strony" class="first-page <?php echo $first_disabled; ?>">«</a>&nbsp;&nbsp;
+                        <a href="<?php echo $prev_page_url; ?>" title="Idź do poprzedniej strony" class="prev-page <?php echo $first_disabled; ?>">‹</a>&nbsp;&nbsp;
 
+                        <span class="paging-input"><?php echo $curr_page ?> z <span class="total-pages"><?php echo $last_page ?></span></span>
+
+                        &nbsp;&nbsp;<a href="<?php echo $next_page_url; ?>" title="Idź do następnej strony" class="next-page <?php echo $last_disabled; ?>">›</a>
+                        &nbsp;&nbsp;<a href="<?php echo $last_page_url; ?>" title="Idź do ostatniej strony" class="last-page <?php echo $last_disabled; ?>">»</a>
+
+                    </span>
+                </div>
+
+                <div class="clear"></div>
+
+            </div>
     <?php endif; ?>
 
 
     <table id="table2excel" class="widefat">
         <thead>
         <tr>
-            <?php if(!isset($_GET['action']) && $_GET['action'] != 'members'): ?>
+            <?php if(!isset($_GET['action'])): ?>
             <th class="check-column"><input type="checkbox" /></th>
             <?php endif; ?>
 <!--            <th>ID</th>-->
@@ -174,7 +182,7 @@
 
                 <tr <?php echo ($i%2) ? 'class="alternate"' : ''; ?>>
 
-                    <?php if(!isset($_GET['action']) && $_GET['action'] != 'members'): ?>
+                    <?php if(!isset($_GET['action'])): ?>
                         <th class="check-column">
                             <input type="checkbox" value="<?php echo $item->id; ?> " name="bulkcheck[]" />
                         </th>

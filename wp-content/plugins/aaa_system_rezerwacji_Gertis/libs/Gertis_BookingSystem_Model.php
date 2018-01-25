@@ -247,7 +247,7 @@ class Gertis_BookingSystem_Model{
     }
 
 
-    function getEventPagination($curr_page, $limit = 10, $order_by = 'id', $order_dir = 'asc', $event_code){
+    function getEventPagination($curr_page, $limit = 10, $order_by = 'id', $order_dir = 'asc', $event_code='', $search=''){
 
         $curr_page = (int)$curr_page;
         if($curr_page < 1){
@@ -271,6 +271,14 @@ class Gertis_BookingSystem_Model{
             $sql = "SELECT * FROM {$table_name} WHERE event_code = '{$event_code}' ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
             $count_sql = "SELECT COUNT(*) FROM {$table_name} WHERE event_code = '{$event_code}'";
         }
+        else if($search != ''){
+            $sql = "SELECT * FROM {$table_name} WHERE event_code LIKE '%{$search}%' 
+              OR event_turn LIKE '%{$search}%'
+              ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
+
+            $count_sql = "SELECT COUNT(*) FROM {$table_name} WHERE event_code LIKE '%{$search}%' 
+              OR event_turn LIKE '%{$search}%'";
+        }
         else{
             $sql = "SELECT * FROM {$table_name} ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
             $count_sql = "SELECT COUNT(*) FROM {$table_name}";
@@ -293,7 +301,7 @@ class Gertis_BookingSystem_Model{
     }
 
 
-    function getGuestPagination($curr_page, $limit = 10, $order_by = 'id', $order_dir = 'desc', $event_turn = ''){
+    function getGuestPagination($curr_page, $limit = 10, $order_by = 'id', $order_dir = 'desc', $event_turn = '', $search = ''){
 
         $curr_page = (int)$curr_page;
         if($curr_page < 1){
@@ -309,28 +317,47 @@ class Gertis_BookingSystem_Model{
 //        $filter = in_array($filter, $filter_opts) ? $order_by : 'all';
 
         $order_dir = in_array($order_dir, array('asc', 'desc')) ? $order_dir : 'desc';
-
         $offset = ($curr_page-1)*$limit;
 
         $table_name = $this->getTableNameGuest();
 
-        $count_sql = "SELECT COUNT(*) FROM {$table_name}";
-        $total_count = $this->wpdb->get_var($count_sql);
-
-        $last_page = ceil($total_count/$limit);
-
         if($event_turn != ''){
-            $sql = "SELECT * FROM {$table_name} WHERE event_turn = '{$event_turn}' AND status IN (\"waiting\", \"confirm\", \"advance\", \"paid\", \"send\") ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
-            //filter: SELECT * FROM wp_gertis_booking_system_guest WHERE event_turn = 'OPT1' ORDER BY id ASC LIMIT 0, 10
+            $sql = "SELECT * FROM {$table_name} 
+            WHERE event_turn = '{$event_turn}' 
+            AND status IN (\"waiting\", \"confirm\", \"advance\", \"paid\", \"send\") 
+            ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
+
+            $count_sql = "SELECT COUNT(*) FROM {$table_name} 
+            WHERE event_turn = '{$event_turn}' 
+            AND status IN (\"waiting\", \"confirm\", \"advance\", \"paid\", \"send\")";
+        }
+        else if($search != ''){
+            $sql = "SELECT * FROM {$table_name} 
+              WHERE guest_name LIKE '%{$search}%' 
+              OR guest_surname LIKE '%{$search}%' 
+              OR email LIKE '%{$search}%'
+              OR personal_no LIKE '%{$search}%'
+              OR event_turn LIKE '%{$search}%' 
+              ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
+
+            $count_sql = "SELECT COUNT(*) FROM {$table_name} 
+              WHERE guest_name LIKE '%{$search}%' 
+              OR guest_surname LIKE '%{$search}%' 
+              OR email LIKE '%{$search}%'
+              OR personal_no LIKE '%{$search}%'
+              OR event_turn LIKE '%{$search}%'";
         }
         else{
             $sql = "SELECT * FROM {$table_name} ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
+            $count_sql = "SELECT COUNT(*) FROM {$table_name}";
         }
 
 
+        $total_count = $this->wpdb->get_var($count_sql);
+        $last_page = ceil($total_count/$limit);
+
         //$event_list = $this->wpdb->get_results($sql, ARRAY_A);
         $guest_list = $this->wpdb->get_results($sql);
-
 
         $Pagination = new Gertis_Pagination($guest_list, $order_by, $order_dir, $limit, $total_count, $curr_page, $last_page);
 

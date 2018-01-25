@@ -1,12 +1,26 @@
-<?php $Model = new Gertis_BookingSystem_Model() ?>
+<?php $Model = new Gertis_BookingSystem_Model();
 
-<?php $event_code = $_GET['event_code']; ?>
+$event_code = (isset($_GET['event_code'])) ? $_GET['event_code'] : 'All';
+$event_code_list = $Model->getEventCodeList();
+
+?>
+
 
 <!--Filtrowanie listy z kodami imprez-->
 <ul class="subsubsub">
-    <li><a href="<?php echo $this->getAdminPageUrl('', array('view' => 'event-form', 'eventid' => $item['id'])); ?> ?>" ></a> </li>
+    <?php foreach ($event_code_list as $event): ?>
+        <li>
+            <a <?php echo ($event_code == $event['event_code']) ?  'class="current"' : ''; ?>
+                href="<?php echo $this->getAdminPageUrl('', array('event_code' => $event['event_code'])); ?>" >
+                <?php echo $event['event_code'] ?>
+            </a>
+        </li> |
+    <?php endforeach; ?>
 </ul>
 
+<br />
+<br />
+<br />
 
 <form method="get" action="<?php echo $this->getAdminPageUrl(); ?>" id="gertis-events-form-1">
 
@@ -35,6 +49,11 @@
     </select>
 
     <input type="submit" class="button-secondary" value="Sortuj" />
+
+    <div class="alignright actions">
+        <input type="search" id="post-search-input" name="search" value="">
+        <input type="submit" id="search-submit" class="button" value="Szukaj usługi">
+    </div>
 
 </form>
 

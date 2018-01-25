@@ -26,7 +26,7 @@ require_once 'libs/cron-schedules.php';
 class Gertis_booking_system{
 
     private static $plugin_id = 'gertis-book-system';
-    private $plugin_version = '1.5.0';
+    private $plugin_version = '1.6.0';
     private $user_capability = 'edit_pages';
     private $model;
     private $action_token = 'gertis-bs-action';
@@ -67,8 +67,8 @@ class Gertis_booking_system{
 //            'fff@example.pro'
 //        );
 //
-       $EventList = $this->model->getEventCodeList();
-       var_dump($EventList);
+//       $EventList = $this->model->getEventCodeList();
+//       var_dump($EventList);
 
     }
 
@@ -226,8 +226,9 @@ class Gertis_booking_system{
                 $curr_page = (int)$request->getQuerySingleParam('paged', 1);
                 $order_by = $request->getQuerySingleParam('orderby', 'id');
                 $order_dir = $request->getQuerySingleParam('orderdir', 'asc');
+                $search = $request->getQuerySingleParam('search', '');
 
-                $pagination = $this->model->getEventPagination($curr_page, $this->pagination_limit, $order_by, $order_dir, $event_code);
+                $pagination = $this->model->getEventPagination($curr_page, $this->pagination_limit, $order_by, $order_dir, $event_code, $search);
 
 
                 $this->renderEvent('events', array('Pagination' => $pagination));
@@ -498,9 +499,14 @@ class Gertis_booking_system{
                     $this->redirect($this->getAdminPageUrl('-guests'));
                 }
 
+//                else if($action == 'search'){
+//
+//                }
+
                 $curr_page = (int)$request->getQuerySingleParam('paged', 1);
                 $order_by = $request->getQuerySingleParam('orderby', 'id');
                 $order_dir = $request->getQuerySingleParam('orderdir', 'desc');
+                $search = $request->getQuerySingleParam('search', '');
 
 
                 //Generowanie listy uczestników dla poszczególnego turnusu
@@ -508,7 +514,7 @@ class Gertis_booking_system{
                     $pagination = $this->model->getGuestPagination($curr_page, 10000, $order_by, $order_dir, $event_turn);
                 }
                 else{
-                    $pagination = $this->model->getGuestPagination($curr_page, $this->pagination_limit, $order_by, $order_dir);
+                    $pagination = $this->model->getGuestPagination($curr_page, $this->pagination_limit, $order_by, $order_dir, $event_turn='', $search);
                 }
 
                 $this->renderGuest('guests', array('Pagination' => $pagination));
