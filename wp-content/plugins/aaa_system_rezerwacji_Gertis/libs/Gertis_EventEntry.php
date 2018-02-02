@@ -77,6 +77,11 @@ class Gertis_EventEntry{
         return ($this->status == 'no');
     }
 
+    // Return true if status == old
+    function isStatusOld(){
+        return ($this->status == 'old');
+    }
+
 
     function setError($field, $error){
         $this->errors[$field] = $error;
@@ -215,13 +220,18 @@ class Gertis_EventEntry{
 
         /*
          * pole status:
-         * - musi zostać ustawione na 'yes' lub 'no'
+         * - musi zostać ustawione na 'yes', 'no' lub 'old'
          */
         if(isset($this->status) && $this->status == 'yes'){
             $this->status = 'yes';
-        }else{
+        }
+        else if (isset($this->status) && $this->status == 'old'){
+            $this->status = 'old';
+        }
+        else{
             $this->status = 'no';
         }
+
 
 
         return (!$this->hasErrors());

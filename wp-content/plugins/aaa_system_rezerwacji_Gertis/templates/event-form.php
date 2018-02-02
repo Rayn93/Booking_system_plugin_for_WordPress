@@ -116,11 +116,15 @@ if($Event->hasId()){
                 <fieldset>
                     <label>
                         <input type='radio' name='entry[status]' value='yes' <?php echo ($Event->isStatusYes()) ? 'checked="checked"' : ''; ?>/>
-                        <span>aktualny</span>
+                        <span>opublikowany</span>
                     </label><br/>
                     <label>
                         <input type='radio' name='entry[status]' value='no' <?php echo ($Event->isStatusNo()) ? 'checked="checked"' : ''; ?>/>
-                        <span>nieaktualny</span>
+                        <span>nieopublikowany</span>
+                    </label><br/>
+                    <label>
+                        <input type='radio' name='entry[status]' value='old' <?php echo ($Event->isStatusOld()) ? 'checked="checked"' : ''; ?>/>
+                        <span>zakończony</span>
                     </label><br/>
                 </fieldset>
 
@@ -130,9 +134,6 @@ if($Event->hasId()){
                     <p class="description">To pole jest obowiązkowe</p>
                 <?php endif; ?>
             </td>
-<!--            <td>-->
-<!--                <input type="checkbox" name="entry[status]" id="gertis_status" value="--><?php //echo $Event->getField('status'); ?><!--" --><?php //echo ($Event->checkStatus()) ? 'checked="checked"' : ''; ?><!-- />-->
-<!--            </td>-->
         </tr>
 
         </tbody>

@@ -71,7 +71,7 @@ class Gertis_BookingSystem_Model{
                 end_date DATE NOT NULL,
                 price INT NOT NULL,
                 seat_no INT NOT NULL,
-                status enum("yes", "no") NOT NULL DEFAULT "yes",
+                status enum("yes", "no", "old") NOT NULL DEFAULT "yes",
                 PRIMARY KEY(id)
             )ENGINE=InnoDB DEFAULT CHARSET=utf8';
 
@@ -247,7 +247,7 @@ class Gertis_BookingSystem_Model{
     }
 
 
-    function getEventPagination($curr_page, $limit = 10, $order_by = 'id', $order_dir = 'asc', $event_code='', $search=''){
+    function getEventPagination($curr_page, $limit = 10, $order_by = 'id', $order_dir = 'asc', $event_code='', $search='', $archive = false){
 
         $curr_page = (int)$curr_page;
         if($curr_page < 1){
@@ -255,33 +255,42 @@ class Gertis_BookingSystem_Model{
         }
 
         $limit = (int)$limit;
-
         $order_by_opts = static::getEventOrderByOpts();
         $order_by = in_array($order_by, $order_by_opts) ? $order_by : 'id';
-
         $order_dir = in_array($order_dir, array('asc', 'desc')) ? $order_dir : 'asc';
-
         $offset = ($curr_page-1)*$limit;
 
         $table_name = $this->getTableNameEvent();
 
+        //Sprawdzenie czy mają być wydarzenia archiwalne
+        if($archive){
+            $status1 = 'old';
+            $status2 = '';
+            $status3 = '';
+        }
+        //czy być wydarzenia aktualne
+        else{
+            $status1 = 'yes';
+            $status2 = 'no';
+            $status3 = '';
+        }
 
-        //Sprawdzenie czy mają być wyciągane wszystkie wydarzenia czy z konkretnego event_turn
+        //Sprawdzenie czy mają być wyciągane wszystkie wydarzenia czy z konkretnego event_turn lub dla wyszukiwarki
         if($event_code != ''){
-            $sql = "SELECT * FROM {$table_name} WHERE event_code = '{$event_code}' ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
-            $count_sql = "SELECT COUNT(*) FROM {$table_name} WHERE event_code = '{$event_code}'";
+            $sql = "SELECT * FROM {$table_name} WHERE event_code = '{$event_code}' AND status IN ('{$status1}', '{$status2}', '{$status3}') ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
+            $count_sql = "SELECT COUNT(*) FROM {$table_name} WHERE event_code = '{$event_code}' AND status IN ('{$status1}', '{$status2}', '{$status3}')";
         }
         else if($search != ''){
-            $sql = "SELECT * FROM {$table_name} WHERE event_code LIKE '%{$search}%' 
-              OR event_turn LIKE '%{$search}%'
+            $sql = "SELECT * FROM {$table_name} WHERE status IN ('{$status1}', '{$status2}', '{$status3}') 
+              AND (event_code LIKE '%{$search}%' OR event_turn LIKE '%{$search}%')
               ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
 
-            $count_sql = "SELECT COUNT(*) FROM {$table_name} WHERE event_code LIKE '%{$search}%' 
-              OR event_turn LIKE '%{$search}%'";
+            $count_sql = "SELECT COUNT(*) FROM {$table_name} WHERE status IN ('{$status1}', '{$status2}', '{$status3}') 
+              AND (event_code LIKE '%{$search}%' OR event_turn LIKE '%{$search}%')";
         }
         else{
-            $sql = "SELECT * FROM {$table_name} ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
-            $count_sql = "SELECT COUNT(*) FROM {$table_name}";
+            $sql = "SELECT * FROM {$table_name} WHERE status IN ('{$status1}', '{$status2}', '{$status3}') ORDER BY {$order_by} {$order_dir} LIMIT {$offset}, {$limit}";
+            $count_sql = "SELECT COUNT(*) FROM {$table_name} WHERE status IN ('{$status1}', '{$status2}', '{$status3}')";
         }
 
         $total_count = $this->wpdb->get_var($count_sql);
@@ -768,11 +777,11 @@ class Gertis_BookingSystem_Model{
 //    }
 
 
-    //Zmienia status na nieaktualny dla wszystkich wydarzeń które data startu jest starsza niż dzień dzisiejszy (wykorzystanie CRON)
+    //Zmienia status na zakończony dla wszystkich wydarzeń które data startu jest starsza niż dzień dzisiejszy (wykorzystanie CRON)
     public function changeOldEventsStatus(){
 
         $table_name = $this->getTableNameEvent();
-        $sql = "UPDATE {$table_name} SET status = 'no' WHERE start_date < CURRENT_DATE()";
+        $sql = "UPDATE {$table_name} SET status = 'old' WHERE start_date < CURRENT_DATE()";
 
         return $this->wpdb->query($sql);
 

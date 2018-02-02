@@ -8,7 +8,7 @@ session_start();
      * Plugin URI: http://www.robertsaternus.pl
      * Description: System rezerwacji na rejsy, dedykowany dla Gertis.
      * Author: Robert Saternus
-     * Version: 1.5
+     * Version: 1.6
      * Author URI: http://www.robertsaternus.pl
  */
 
@@ -26,11 +26,11 @@ require_once 'libs/cron-schedules.php';
 class Gertis_booking_system{
 
     private static $plugin_id = 'gertis-book-system';
-    private $plugin_version = '1.6.0';
+    private $plugin_version = '1.7.0';
     private $user_capability = 'edit_pages';
     private $model;
     private $action_token = 'gertis-bs-action';
-    private $pagination_limit = 200;
+    private $pagination_limit = 20;
 
 
 
@@ -153,6 +153,7 @@ class Gertis_booking_system{
         add_submenu_page(static::$plugin_id, 'Obozy żeglarskie', 'Twoje usługi', $this->user_capability, static::$plugin_id, array($this, 'printAdminPageEvent'));
         add_submenu_page(static::$plugin_id, 'Zapisani uczestnicy', 'Uczestnicy', $this->user_capability, static::$plugin_id.'-guests', array($this, 'printAdminPageGuest'));
         add_submenu_page(static::$plugin_id, 'Szablony email', 'Szablony E-mail', $this->user_capability, static::$plugin_id.'-emails', array($this, 'printAdminPageEmail'));
+        add_submenu_page(static::$plugin_id, 'Archiwum usług', 'Archiwum usług', $this->user_capability, static::$plugin_id.'-archive', array($this, 'printAdminPageEvent'));
 
     }
 
@@ -164,6 +165,9 @@ class Gertis_booking_system{
         $action = $request->getQuerySingleParam('action');
         $eventid = (int)$request->getQuerySingleParam('eventid');
         $event_code = $request->getQuerySingleParam('event_code');
+        $page_name = $request->getQuerySingleParam('page');
+
+
 
         switch ($view) {
             case 'events':
@@ -186,7 +190,14 @@ class Gertis_booking_system{
                         $this->setFlashMsg('Nie poprawny token akcji', 'error');
                     }
 
-                    $this->redirect($this->getAdminPageUrl());
+                    //Dla niearchiwalnych
+                    if($page_name == 'gertis-book-system'){
+                        $this->redirect($this->getAdminPageUrl());
+                    }
+                    //Dla archiwalnych
+                    else{
+                        $this->redirect($this->getAdminPageUrl('-archive'));
+                    }
 
                 }
                 else if($action == 'bulk'){
@@ -220,7 +231,15 @@ class Gertis_booking_system{
                             }
                         }
                     }
-                    $this->redirect($this->getAdminPageUrl());
+                    //Dla niearchiwalnych
+                    if($page_name == 'gertis-book-system'){
+                        $this->redirect($this->getAdminPageUrl());
+                    }
+                    //Dla archiwalnych
+                    else{
+                        $this->redirect($this->getAdminPageUrl('-archive'));
+                    }
+
                 }
 
                 $curr_page = (int)$request->getQuerySingleParam('paged', 1);
@@ -228,7 +247,16 @@ class Gertis_booking_system{
                 $order_dir = $request->getQuerySingleParam('orderdir', 'asc');
                 $search = $request->getQuerySingleParam('search', '');
 
-                $pagination = $this->model->getEventPagination($curr_page, $this->pagination_limit, $order_by, $order_dir, $event_code, $search);
+                //Wybranie wydarzeń które nie są archiwalne
+                if($page_name == 'gertis-book-system'){
+                    $pagination = $this->model->getEventPagination($curr_page, $this->pagination_limit, $order_by, $order_dir, $event_code, $search, false);
+                }
+                //Wybranie wydarzeń archiwalnych
+                else{
+                    $pagination = $this->model->getEventPagination($curr_page, $this->pagination_limit, $order_by, $order_dir, $event_code, $search, true);
+                }
+
+
 
 
                 $this->renderEvent('events', array('Pagination' => $pagination));
@@ -900,7 +928,7 @@ class Gertis_booking_system{
 
 
 
-    //Zwraca link do pluginu (parametr $page dla uczestników powinien mieć wartość '-guests' a do szablonu email '-emails')
+    //Zwraca link do pluginu (parametr $page dla uczestników powinien mieć wartość '-guests' a do szablonu email '-emails, dla archiwum '-archive')
     public function getAdminPageUrl($page ='', array $params = array()){
         $admin_url = admin_url('admin.php?page='.static::$plugin_id.$page);
         $admin_url = add_query_arg($params, $admin_url);

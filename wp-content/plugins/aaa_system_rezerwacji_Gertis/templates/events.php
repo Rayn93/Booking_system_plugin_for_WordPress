@@ -2,29 +2,47 @@
 
 $event_code = (isset($_GET['event_code'])) ? $_GET['event_code'] : 'All';
 $event_code_list = $Model->getEventCodeList();
+$page_name = $_GET['page'];
+
+if($page_name == 'gertis-book-system'){
+//    $action_name = $this->getAdminPageUrl();
+    $archive = false;
+    $adminPageName = '';
+}
+else{
+//    $action_name = $this->getAdminPageUrl('-archive');
+    $archive = true;
+    $adminPageName = '-archive';
+}
+
+
+
+var_dump($adminPageName);
 
 ?>
 
 
 <!--Filtrowanie listy z kodami imprez-->
-<ul class="subsubsub">
-    <?php foreach ($event_code_list as $event): ?>
-        <li>
-            <a <?php echo ($event_code == $event['event_code']) ?  'class="current"' : ''; ?>
-                href="<?php echo $this->getAdminPageUrl('', array('event_code' => $event['event_code'])); ?>" >
-                <?php echo $event['event_code'] ?>
-            </a>
-        </li> |
-    <?php endforeach; ?>
-</ul>
+<?php //if(!$archive): ?>
+    <ul class="subsubsub">
+        <?php foreach ($event_code_list as $event): ?>
+            <li>
+                <a <?php echo ($event_code == $event['event_code']) ?  'class="current"' : ''; ?>
+                    href="<?php echo $this->getAdminPageUrl($adminPageName, array('event_code' => $event['event_code'])); ?>" >
+                    <?php echo $event['event_code'] ?>
+                </a>
+            </li> |
+        <?php endforeach; ?>
+    </ul>
+<?php //endif; ?>
 
 <br />
 <br />
 <br />
 
-<form method="get" action="<?php echo $this->getAdminPageUrl(); ?>" id="gertis-events-form-1">
+<form method="get" action="<?php echo $this->getAdminPageUrl($adminPageName); ?>" id="gertis-events-form-1">
 
-    <input type="hidden" name="page" value="<?php echo static::$plugin_id; ?>" />
+    <input type="hidden" name="page" value="<?php echo static::$plugin_id.$adminPageName; ?>" />
     <input type="hidden" name="paged" value="<?php echo $Pagination->getCurrPage(); ?>" />
 
     Sortuj według
@@ -58,7 +76,7 @@ $event_code_list = $Model->getEventCodeList();
 </form>
 
 
-<form action="<?php echo $this->getAdminPageUrl('', array('view' => 'events', 'action' => 'bulk')); ?>" method="post" id="gertis-events-form-2" onsubmit="return confirm('Czy na pewno chcesz zastosować zmiany masowe?')">
+<form action="<?php echo $this->getAdminPageUrl($adminPageName, array('view' => 'events', 'action' => 'bulk')); ?>" method="post" id="gertis-events-form-2" onsubmit="return confirm('Czy na pewno chcesz zastosować zmiany masowe?')">
 
     <?php wp_nonce_field($this->action_token.'bulk'); ?>
 
@@ -69,8 +87,8 @@ $event_code_list = $Model->getEventCodeList();
             <select name="bulkaction">
                 <option value="0">Masowe działania</option>
                 <option value="delete">Usuń</option>
-                <option value="actual">Aktualny</option>
-                <option value="no_actual">Nieaktualny</option>
+                <option value="actual">Opublikowany</option>
+                <option value="no_actual">Nieopublikowany</option>
             </select>
 
             <input type="submit" class="button-secondary" value="Zastosuj" />
@@ -107,16 +125,16 @@ $event_code_list = $Model->getEventCodeList();
 
 
             $url_params['paged'] = 1;
-            $first_page_url = $this->getAdminPageUrl('', $url_params);
+            $first_page_url = $this->getAdminPageUrl($adminPageName, $url_params);
 
             $url_params['paged'] = $curr_page-1;
-            $prev_page_url = $this->getAdminPageUrl('', $url_params);
+            $prev_page_url = $this->getAdminPageUrl($adminPageName, $url_params);
 
             $url_params['paged'] = $last_page;
-            $last_page_url = $this->getAdminPageUrl('', $url_params);
+            $last_page_url = $this->getAdminPageUrl($adminPageName, $url_params);
 
             $url_params['paged'] = $curr_page+1;
-            $next_page_url = $this->getAdminPageUrl('', $url_params);
+            $next_page_url = $this->getAdminPageUrl($adminPageName, $url_params);
 
 
             if($curr_page == 1){
@@ -202,7 +220,19 @@ $event_code_list = $Model->getEventCodeList();
                     <td><?php echo $item['price']; ?></td>
                     <td><?php echo $item['seat_no']; ?></td>
                     <td><?php echo $item['taken_seats']; ?></td>
-                    <td><?php echo ($item['status'] == 'yes') ? 'aktualny' : 'nieaktualny'; ?></td>
+                    <td>
+                        <?php
+                            if($item['status'] == 'yes'){
+                                echo 'opublikowany';
+                            }
+                            else if($item['status'] == 'no'){
+                                echo 'nieopublikowany';
+                            }
+                            else{
+                                echo 'zakończony';
+                            }
+                        ?>
+                    </td>
                 </tr>
 
             <?php endforeach; ?>
@@ -234,7 +264,7 @@ $event_code_list = $Model->getEventCodeList();
                 for($i=1; $i<=$Pagination->getLastPage(); $i++){
 
                     $url_params['paged'] = $i;
-                    $url = $this->getAdminPageUrl('', $url_params);
+                    $url = $this->getAdminPageUrl($adminPageName, $url_params);
 
                     if($i == $Pagination->getCurrPage()){
                         echo "&nbsp;<strong>{$i}</strong>";
