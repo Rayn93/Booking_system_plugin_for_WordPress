@@ -8,7 +8,7 @@ session_start();
      * Plugin URI: http://www.robertsaternus.pl
      * Description: System rezerwacji na rejsy, dedykowany dla Gertis.
      * Author: Robert Saternus
-     * Version: 1.6
+     * Version: 1.7
      * Author URI: http://www.robertsaternus.pl
  */
 

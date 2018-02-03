@@ -213,7 +213,6 @@
                 <?php else: ?>
                 <p class="description">To pole jest wymagane</p>
                 <?php endif; ?>
-
             </td>
         </tr>
 

@@ -765,21 +765,12 @@ class Gertis_BookingSystem_Model{
         return $this->wpdb->query($prep);
     }
 
-//    static function getEventForFilter(){
-//
-//        global $wpdb;
-//        $sql = 'SELECT event_turn FROM wp_gertis_booking_system_guest GROUP BY event_turn ORDER BY event_turn ASC';
-//
-//
-//        return $wpdb->get_results($sql);
-//    }
-
 
     //Zmienia status na zakończony dla wszystkich wydarzeń które data startu jest starsza niż dzień dzisiejszy (wykorzystanie CRON)
     public function changeOldEventsStatus(){
 
         $table_name = $this->getTableNameEvent();
-        $sql = "UPDATE {$table_name} SET status = 'old' WHERE start_date < CURRENT_DATE()";
+        $sql = "UPDATE {$table_name} SET status = 'old' WHERE end_date < CURRENT_DATE()";
 
         return $this->wpdb->query($sql);
 
