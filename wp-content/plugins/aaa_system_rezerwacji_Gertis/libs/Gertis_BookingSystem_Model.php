@@ -557,8 +557,6 @@ class Gertis_BookingSystem_Model{
     }
 
 
-
-
     //zwraca liczbę zajętych miejsc na danym turnusie
     function countTakenSeats($event_turn){
 
@@ -590,7 +588,7 @@ class Gertis_BookingSystem_Model{
     function getEventCodeList(){
 
         $table_name = $this->getTableNameEvent();
-        $sql = 'SELECT DISTINCT event_code FROM '.$table_name;
+        $sql = 'SELECT DISTINCT event_code FROM '.$table_name.' WHERE status != "old"' ;
         $event_list = $this->wpdb->get_results($sql, ARRAY_A);
 
         return $event_list;

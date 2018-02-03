@@ -30,7 +30,7 @@ class Gertis_booking_system{
     private $user_capability = 'edit_pages';
     private $model;
     private $action_token = 'gertis-bs-action';
-    private $pagination_limit = 20;
+    private $pagination_limit = 300;
 
 
 

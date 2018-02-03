@@ -5,36 +5,30 @@ $event_code_list = $Model->getEventCodeList();
 $page_name = $_GET['page'];
 
 if($page_name == 'gertis-book-system'){
-//    $action_name = $this->getAdminPageUrl();
     $archive = false;
     $adminPageName = '';
 }
 else{
-//    $action_name = $this->getAdminPageUrl('-archive');
     $archive = true;
     $adminPageName = '-archive';
 }
-
-
-
-var_dump($adminPageName);
 
 ?>
 
 
 <!--Filtrowanie listy z kodami imprez-->
-<?php //if(!$archive): ?>
+<?php if(!$archive): ?>
     <ul class="subsubsub">
         <?php foreach ($event_code_list as $event): ?>
             <li>
                 <a <?php echo ($event_code == $event['event_code']) ?  'class="current"' : ''; ?>
                     href="<?php echo $this->getAdminPageUrl($adminPageName, array('event_code' => $event['event_code'])); ?>" >
-                    <?php echo $event['event_code'] ?>
+                    <?php echo substr($event['event_code'], 0, -5); ?>
                 </a>
             </li> |
         <?php endforeach; ?>
     </ul>
-<?php //endif; ?>
+<?php endif; ?>
 
 <br />
 <br />
