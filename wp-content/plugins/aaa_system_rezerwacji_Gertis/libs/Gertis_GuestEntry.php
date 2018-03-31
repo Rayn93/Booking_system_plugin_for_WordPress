@@ -306,8 +306,8 @@ class Gertis_GuestEntry{
         if(!empty($this->more_info)){
 
             $this->more_info = sanitize_text_field($this->more_info);
-            if(strlen($this->more_info) > 100){
-                $this->setError('more_info', 'To pole nie może być dłuższe niż 100 znaków.');
+            if(strlen($this->more_info) > 501){
+                $this->setError('more_info', 'To pole nie może być dłuższe niż 500 znaków.');
             }
         }
 

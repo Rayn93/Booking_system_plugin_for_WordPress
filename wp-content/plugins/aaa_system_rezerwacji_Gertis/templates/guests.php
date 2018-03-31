@@ -269,7 +269,7 @@
                         </div>
                     </td>
 <!--                    <td>--><?php //echo $item->from_who; ?><!--</td>-->
-                    <td><?php echo $item->more_info; ?></td>
+                    <td><?php echo $trimmed = wp_trim_words( $item->more_info, $num_words = 10, $more = null ); ?> </td>
                     <td><?php echo $item->staff_info; ?></td>
                     <td><?php echo $item->register_date; ?></td>
 

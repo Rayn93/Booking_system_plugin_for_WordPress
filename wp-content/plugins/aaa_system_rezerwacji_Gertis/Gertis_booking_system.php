@@ -719,6 +719,8 @@ class Gertis_booking_system{
                 $this->redirect(get_site_url().'/a-system-rezerwacji/', array('code' => $event_turn));
             }
         }
+
+
     }
 
     function printAdminPageEmail(){

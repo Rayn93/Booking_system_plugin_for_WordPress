@@ -148,14 +148,14 @@ function gertisMainForm(){
                 <div class="form-group">
                     <label for="from_who" class="col-sm-3 control-label">Skąd o nas wiesz?</label>
                     <div class="col-sm-9">
-                        <textarea type="text" class="form-control" name="front_entry[from_who]" id="from_who" placeholder="Np. znajomi, internet, gazeta itp."></textarea>
+                        <textarea type="text" class="form-control" name="front_entry[from_who]" id="from_who" placeholder="Np. znajomi, internet, gazeta itp." maxlength="499" data-error="Maksymalna ilość znaków: 500"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="more_info" class="col-sm-3 control-label">Uwagi dodatkowe</label>
                     <div class="col-sm-9">
-                        <textarea type="text" class="form-control" name="front_entry[more_info]" id="more_info" placeholder="Twoje pytania, faktura VAT, dojazd itp." maxlength="99" data-error="Maksymalna ilość znaków: 100"></textarea>
+                        <textarea type="text" class="form-control" name="front_entry[more_info]" id="more_info" placeholder="Twoje pytania, faktura VAT, dojazd itp." maxlength="499" data-error="Maksymalna ilość znaków: 500"></textarea>
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
