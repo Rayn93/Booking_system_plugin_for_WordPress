@@ -353,7 +353,7 @@
 
 <h3>Generowanie umowy</h3>
 
-    <a class="edit" href="<?php echo $generate_url ?>">Generuj umowę</a>
+    <a class="button-primary" href="<?php echo $generate_url ?>">Generuj umowę</a>
 
 <?php endif; ?>
 

@@ -584,6 +584,15 @@ class Gertis_BookingSystem_Model{
         return $event_list;
     }
 
+    //Zwraca id turnusu o okreśolonym $event_turn
+    function getEventTurnId($event_turn){
+
+        $table_name = $this->getTableNameEvent();
+        $sql = 'SELECT id FROM '.$table_name.' WHERE event_turn="'.$event_turn.'"';
+        return $this->wpdb->get_var($sql);
+
+    }
+
     //Zwraca listę z wszystkimi kodami wydarzeń
     function getEventCodeList(){
 
@@ -635,7 +644,7 @@ class Gertis_BookingSystem_Model{
     }
 
     //Zwraca przedział daty konkretnego wydarzenia
-    function getEventDate($event_turn){
+    public function getEventDate($event_turn){
 
         $table_name = $this->getTableNameEvent();
         $sql = 'SELECT * FROM '.$table_name.' WHERE event_turn="'.$event_turn.'" ';
@@ -661,7 +670,6 @@ class Gertis_BookingSystem_Model{
         $table_name = $this->getTableNameEvent();
         $sql = 'SELECT event_code FROM '.$table_name.' WHERE event_turn="'.$event_turn.'" ';
         return $this->wpdb->get_var($sql);
-
     }
 
     //Zwraca szablon maila po rejestracji. Gdy nie ma maila to ładuje szablon domyślny

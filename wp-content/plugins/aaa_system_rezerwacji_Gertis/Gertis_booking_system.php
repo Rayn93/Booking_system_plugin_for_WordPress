@@ -631,8 +631,8 @@ class Gertis_booking_system{
 //                    header("Location: ../wp-content/plugins/aaa_system_rezerwacji_Gertis/libs/TCPDF/examples/example_002.php");
 
                     // Include the main TCPDF library (search for installation path).
-                    require_once('libs/tcpdf/tcpdf.php');
-                    $this->generatePDFAgreement($guestid);
+                    require_once('libs/pdfAgreement.php');
+                    generatePDFAgreement($guestid);
 
 
                 }
@@ -1204,70 +1204,7 @@ class Gertis_booking_system{
     }
 
 
-    //Generate agreemant for guest with id: $guestid
-    public function generatePDFAgreement($guestid){
 
-        // create new PDF document
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
-        // set document information
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Nicola Asuni');
-        $pdf->SetTitle('TCPDF Example 002');
-        $pdf->SetSubject('TCPDF Tutorial');
-        $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-
-        // remove default header/footer
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-
-        // set default monospaced font
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-        // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-        // set image scale factor
-        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-        // set font
-        $pdf->SetFont('times', 12);
-
-        // add a page
-        $pdf->AddPage();
-
-    // set some text to print
-        $txt = <<<EOD
-    TCPDF Example 002 {$guestid}
-    
-    Default page Nowa umowa and footer are disabled using setPrintHeader() and setPrintFooter() methods.
-EOD;
-
-        // print a block of text using Write()
-        $pdf->Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
-
-        $filename= "{$guestid}.pdf";
-
-        if($_SERVER['HTTP_HOST']=='localhost') {
-            $filelocation = "C:\\xampp\\htdocs\\obozy-zeglarskie\\wp-content\\plugins\\aaa_system_rezerwacji_Gertis\\umowy";
-            $fileNL = $filelocation."\\".$filename;
-        }
-
-        else {
-            $filelocation= $_ENV["DOCUMENT_ROOT"]."/umowy";
-            $fileNL = $filelocation."/".$filename;
-        }
-
-
-        //Close and output PDF document
-        ob_end_clean();
-        $pdf->Output($fileNL,'FI');
-
-        return $pdf;
-    }
 }
 
 
