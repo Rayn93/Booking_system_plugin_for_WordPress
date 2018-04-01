@@ -623,6 +623,28 @@ class Gertis_booking_system{
                     $this->redirect($this->getAdminPageUrl('-guests'));
                 }
 
+                elseif($action == 'generate_pdf'){
+
+//                    $this->setFlashMsg('Generate email');
+//                    $this->redirect($this->getAdminPageUrl() + '/TCPDF/examples/example_001.php');
+
+//                    header("Location: ../wp-content/plugins/aaa_system_rezerwacji_Gertis/libs/TCPDF/examples/example_002.php");
+
+
+
+// Include the main TCPDF library (search for installation path).
+require_once('libs/fpdf/fpdf.php');
+
+                    $pdf = new FPDF();
+                    $pdf->AddPage();
+                    $pdf->SetFont('Arial','B',16);
+                    $pdf->Cell(40,10,'Hello World!');
+                    ob_end_clean();
+                    $pdf->Output();
+
+                }
+
+
                 $this->renderGuest('guest-form', array('Guest' => $GuestEntry, 'EventList' => $event_list));
                 break;
 

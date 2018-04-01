@@ -345,5 +345,17 @@
         <input type="email" name="agent_email" id="email2" placeholder="Adres Email Agenta" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$">
         <input type="submit" class="button-primary" value="Prześlij"/>
     </form>
+<br/><br/>
+
+    <?php
+    $generate_url = $this->getAdminPageUrl('-guests', array('view' => 'guest-form', 'action' => 'generate_pdf', 'guestid' => $Guest->getField('id')));
+    ?>
+
+<h3>Generowanie umowy</h3>
+
+    <a class="edit" href="<?php echo $generate_url ?>">Generuj umowę</a>
 
 <?php endif; ?>
+
+
+
