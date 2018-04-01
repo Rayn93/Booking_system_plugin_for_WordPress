@@ -253,10 +253,7 @@ function generatePDFAgreement($guestid){
     $pdf->writeHTML($html, true, false, true, false, '');
 
 
-//        // print a block of text using Write()
-//        $pdf->Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
-
-    $filename= "{$guestid}.pdf";
+    $filename= "{$guestid}-{$GuestEntry->getField('guest_name')}-{$GuestEntry->getField('guest_surname')}.pdf";
 
     if($_SERVER['HTTP_HOST']=='localhost') {
         $filelocation = "C:\\xampp\\htdocs\\obozy-zeglarskie\\wp-content\\plugins\\aaa_system_rezerwacji_Gertis\\umowy";
@@ -275,6 +272,26 @@ function generatePDFAgreement($guestid){
 
     return $pdf;
 
+
+}
+
+
+function sendGeneratedPDF($guestid){
+
+    $GuestEntry = new Gertis_GuestEntry($guestid);
+
+    $to = $GuestEntry->getField('email');
+    $message = '<p>Cześć w załączniku wysyłamy umowę</p>';
+    $subject = 'Gertis - Obozy żeglarskie: Wysłanie umowy';
+
+    if($_SERVER['HTTP_HOST']=='localhost') {
+        $attachments = 'C:\\xampp\\htdocs\\obozy-zeglarskie\\wp-content\\plugins\\aaa_system_rezerwacji_Gertis\\umowy\\'.$GuestEntry->getField('id').'-'.$GuestEntry->getField('guest_name').'-'.$GuestEntry->getField('guest_surname').'.pdf';
+    }
+    else {
+        $attachments = $_ENV["DOCUMENT_ROOT"]."/umowy".$GuestEntry->getField('id').'-'.$GuestEntry->getField('guest_name').'-'.$GuestEntry->getField('guest_surname').'.pdf';
+    }
+
+    return (wp_mail($to, $subject, $message, $headers = '', $attachments));
 
 }
 

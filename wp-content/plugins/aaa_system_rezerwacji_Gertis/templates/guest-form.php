@@ -348,14 +348,31 @@
 <br/><br/>
 
     <?php
-    $generate_url = $this->getAdminPageUrl('-guests', array('view' => 'guest-form', 'action' => 'generate_pdf', 'guestid' => $Guest->getField('id')));
+    $generate_pdf_url = $this->getAdminPageUrl('-guests', array('view' => 'guest-form', 'action' => 'generate_pdf', 'guestid' => $Guest->getField('id')));
+    $send_pdf_url = $this->getAdminPageUrl('-guests', array('view' => 'guest-form', 'action' => 'send_generated_pdf', 'guestid' => $Guest->getField('id')));
     ?>
 
-<h3>Generowanie umowy</h3>
+<h3>Generowanie i wysyłanie umowy</h3>
 
-    <a class="button-primary" href="<?php echo $generate_url ?>">Generuj umowę</a>
+    <a class="button-primary" href="<?php echo $generate_pdf_url ?>">Generuj umowę</a>
+
+    <?php
+        if($_SERVER['HTTP_HOST']=='localhost') {
+            $filename = 'C:\\xampp\\htdocs\\obozy-zeglarskie\\wp-content\\plugins\\aaa_system_rezerwacji_Gertis\\umowy\\'.$Guest->getField('id').'-'.$Guest->getField('guest_name').'-'.$Guest->getField('guest_surname').'.pdf';
+        }
+        else {
+            $filename = $_ENV["DOCUMENT_ROOT"]."/umowy.$Guest->getField('id').'-'.$Guest->getField('guest_name').'-'.$Guest->getField('guest_surname').'.pdf";
+        }
+    ?>
+
+    <?php if(file_exists($filename)): ?>
+        <a class="button-primary" href="<?php echo $send_pdf_url ?>">Prześlij umowę użytkownikowi</a>
+    <?php endif; ?>
+
 
 <?php endif; ?>
+
+
 
 
 

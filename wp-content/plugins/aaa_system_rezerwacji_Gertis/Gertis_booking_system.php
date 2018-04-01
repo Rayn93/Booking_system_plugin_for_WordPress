@@ -626,17 +626,33 @@ class Gertis_booking_system{
                 elseif($action == 'generate_pdf'){
 
 //                    $this->setFlashMsg('Generate email');
-//                    $this->redirect($this->getAdminPageUrl() + '/TCPDF/examples/example_001.php');
-
-//                    header("Location: ../wp-content/plugins/aaa_system_rezerwacji_Gertis/libs/TCPDF/examples/example_002.php");
 
                     // Include the main TCPDF library (search for installation path).
                     require_once('libs/pdfAgreement.php');
                     generatePDFAgreement($guestid);
 
-
                 }
 
+                elseif($action == 'send_generated_pdf'){
+
+                    require_once('libs/pdfAgreement.php');
+
+                    if($_SERVER['HTTP_HOST']=='localhost') {
+                        $filename = 'C:\\xampp\\htdocs\\obozy-zeglarskie\\wp-content\\plugins\\aaa_system_rezerwacji_Gertis\\umowy\\'.$GuestEntry->getField('id').'-'.$GuestEntry->getField('guest_name').'-'.$GuestEntry->getField('guest_surname').'.pdf';
+                    }
+                    else {
+                        $filename = $_ENV["DOCUMENT_ROOT"]."/umowy".$GuestEntry->getField('id').'-'.$GuestEntry->getField('guest_name').'-'.$GuestEntry->getField('guest_surname').'.pdf';
+                    }
+
+                    if(file_exists($filename)){
+                        sendGeneratedPDF($guestid);
+                        $this->setFlashMsg('Poprawnie przesłano umowę użytkownikowi');
+                    }
+                    else{
+                        $this->setFlashMsg('Nie udało się przesłać danych uczestnika. Skontaktój się z twórcą systemu rezerwacji', 'error');
+                    }
+                    $this->redirect($this->getAdminPageUrl('-guests'));
+                }
 
                 $this->renderGuest('guest-form', array('Guest' => $GuestEntry, 'EventList' => $event_list));
                 break;
@@ -664,10 +680,15 @@ class Gertis_booking_system{
         if (isset($_POST['front_entry'])){
 
             //Sprawdzenie Recaptchy
-            //Localshost
-            $recaptcha_secret = '6LcesSATAAAAAEbSpdql0Q8_rx8m7utCEIgcnfUu';
-//            Freelancelot
-//            $recaptcha_secret = '6LcXvxgUAAAAAGerfk-Wc82jyVD26IAJAGOq2amv';
+            if($_SERVER['HTTP_HOST']=='localhost') {
+                //Localshost
+                $recaptcha_secret = '6LcesSATAAAAAEbSpdql0Q8_rx8m7utCEIgcnfUu';
+            }
+            else {
+//                Freelancelot
+            $recaptcha_secret = '6LcXvxgUAAAAAGerfk-Wc82jyVD26IAJAGOq2amv';
+            }
+
             $check_recaptcha = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$recaptcha_secret.'&response='.$_POST['g-recaptcha-response']);
             $feedback_recaptcha = json_decode($check_recaptcha);
             $event_turn = $_POST['front_entry[event_turn]'];
@@ -1202,8 +1223,6 @@ class Gertis_booking_system{
 
         return implode( $delimiter, $output );
     }
-
-
 
 }
 
