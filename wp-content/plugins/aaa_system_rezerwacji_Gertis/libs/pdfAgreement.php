@@ -35,7 +35,7 @@ function generatePDFAgreement($guestid){
 
     // set margins
 //    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-    $pdf->SetMargins(6, 5, 6, true);
+    $pdf->SetMargins(5, 4, 5, true);
 
     $pdf->SetAutoPageBreak(TRUE, 0);
 
@@ -65,6 +65,12 @@ function generatePDFAgreement($guestid){
             font-size: 13px;
         }
 
+        ul,
+        ol,
+        li{
+            font-size: 10.5px;
+        }
+
         .font10{
             font-size: 10px;
         }
@@ -92,7 +98,7 @@ function generatePDFAgreement($guestid){
         }
 
         .bg-grey{
-            background-color: #9fa4a9;
+            background-color: #bbc0c5;
         }
 
         h3{
@@ -134,30 +140,36 @@ function generatePDFAgreement($guestid){
     </table>
 
     <h3 class="bg-grey">UMOWA - ZGŁOSZENIE Z DNIA <?php echo $GuestEntry->getField('register_date'); ?></h3>
-
-    <h4 class="bg-grey">Dane uczestnika</h4>
-    <p>Imię i nazwisko: <?php echo $GuestEntry->getField('guest_name').' '.$GuestEntry->getField('guest_surname'); ?><br />
-       Adres zamieszkania:  <?php echo $GuestEntry->getField('street').' '.$GuestEntry->getField('city').' '.$GuestEntry->getField('zip_code'); ?><br />
-       Numer PESEL: : <?php echo $GuestEntry->getField('personal_no'); ?><br />
-       Telefon kontaktowy:  <?php echo $GuestEntry->getField('phone'); ?><br />
-       Email:  <?php echo $GuestEntry->getField('email') ?>
-    </p>
-
-    <h4 class="bg-grey">Dane opiekuna</h4>
-    <p>Imię i nazwisko: <?php echo $GuestEntry->getField('').' '.$GuestEntry->getField(''); ?><br />
-        Adres zamieszkania:  <?php echo $GuestEntry->getField('').' '.$GuestEntry->getField('').' '.$GuestEntry->getField(''); ?><br />
-        Telefon kontaktowy:  <?php echo $GuestEntry->getField(''); ?><br />
-        Email:  <?php echo $GuestEntry->getField('') ?>
-    </p>
+    <table>
+        <tr>
+            <td>
+                <h4 class="bg-grey">Dane uczestnika</h4>
+                <p><strong>Imię i nazwisko:</strong> <?php echo $GuestEntry->getField('guest_name').' '.$GuestEntry->getField('guest_surname'); ?><br />
+                   <strong>Adres:</strong>  <?php echo $GuestEntry->getField('street').' '.$GuestEntry->getField('city').' '.$GuestEntry->getField('zip_code'); ?><br />
+                   <strong>Numer PESEL / dowodu:</strong> <?php echo $GuestEntry->getField('personal_no'); ?><br />
+                   <strong>Telefon kontaktowy:</strong>  <?php echo $GuestEntry->getField('phone'); ?><br />
+                   <strong>Email:</strong>  <?php echo $GuestEntry->getField('email') ?>
+                </p>
+            </td>
+            <td>
+                <h4 class="bg-grey">Dane opiekuna</h4>
+                <p><strong>Imię i nazwisko:</strong> <?php echo $GuestEntry->getField('').' '.$GuestEntry->getField(''); ?><br />
+                   <strong>Adres:</strong>  <?php echo $GuestEntry->getField('').' '.$GuestEntry->getField('').' '.$GuestEntry->getField(''); ?><br />
+                   <strong>Telefon kontaktowy:</strong>  <?php echo $GuestEntry->getField(''); ?><br />
+                   <strong>Email:</strong>  <?php echo $GuestEntry->getField('') ?>
+                </p>
+            </td>
+        </tr>
+    </table>
 
     <h4 class="bg-grey">Dane Imprezy</h4>
-    <p>Kod imprezy: <?php echo $event_turn;?><br />
-       Data imprezy: <?php echo $model->getEventDate($event_turn);?><br />
+    <p><strong>Kod imprezy:</strong> <?php echo $event_turn;?><br />
+       <strong>Data imprezy:</strong> <?php echo $model->getEventDate($event_turn);?>
     </p>
 
     <h4 class="bg-grey">Informacje o transporcie</h4>
-    <p>Dojazd: <?php echo $dates[0]; ?> – dokładne informacje zostaną przesłane do Państwa na 5-7 dni przed wyjazdem. <br />
-       Powrót: <?php echo $dates[1];?> – dokładne informacje zostaną przesłane do Państwa na 5-7 dni przed wyjazdem.
+    <p><strong>Dojazd:</strong> <?php echo $dates[0]; ?> – dokładne informacje zostaną przesłane do Państwa na 5-7 dni przed wyjazdem. <br />
+       <strong>Powrót:</strong> <?php echo $dates[1];?> – dokładne informacje zostaną przesłane do Państwa na 5-7 dni przed wyjazdem.
     </p>
 
     <h4 class="bg-grey">Płatności</h4>
@@ -173,9 +185,9 @@ function generatePDFAgreement($guestid){
         </tr>
     </table>
 
-    <p>Wpłata: <?php echo $GuestEntry->getField('money'); ?> <br />
-       Dnia: <?php echo 'brak pola';?><br />
-       Pozostało do zapłaty: <?php echo ($EventEntry->getField('price')-$GuestEntry->getField('money'));?>
+    <p><strong>Wpłata:</strong> <?php echo $GuestEntry->getField('money'); ?> <br />
+       <strong>Dnia:</strong> <?php echo 'brak pola';?> <br />
+       <strong>Pozostało do zapłaty:</strong> <?php echo ($EventEntry->getField('price')-$GuestEntry->getField('money'));?><br />
        <strong>Płatne do: Pozostałą należność należy uregulować na 21 dni przed wyjazdem.</strong>
     </p>
     <p class="font10">Uczestnik (opiekun) poprzez wypełnienie i podpisanie Umowy Zgłoszenia oświadcza, że w  imieniu własnym i osób zgłaszanych zapoznał się z programem imprezy oraz ze stanowiącymi integralną  cześć niniejszej umowy "Szczegółowymi warunkami uczestnictwa w imprezach turystycznych organizowanych przez Biuro Turystyki Żeglarskiej Róża Wiatrów Sp. z o.o." i zobowiązuje się do ich przestrzegania. Uczestnik (opiekun) potwierdza także, że został zapoznany z informacjami dotyczącymi: przeciwwskazań zdrowotnych związanych z uczestnictwem w imprezie, możliwości ubezpieczenia się od rezygnacji. W sprawach nieuregulowanych niniejszą umową stosowane będą postanowienia Ustawy z dnia 29 sierpnia 1997r. o usługach turystycznych oraz Kodeksu Cywilnego. Podpisanie przez Uczestnika (opiekuna) niniejszego Zgłoszenia Uczestnictwa jest równoznaczne z wyrażeniem przez niego zgody na przetwarzanie danych osobowych przez Biuro Turystyki Żeglarskiej Róża Wiatrów sp. z o.o.  zgodnie z Ustawą z dnia 29 sierpnia 1997r. Dz.U.133, pozycja 833. Biuro Turystyki Żeglarskiej Róża Wiatrów Sp. z o.o.  wpisane jest do Rejestru Organizatorów i Pośredników Turystycznych prowadzonego przez Marszałka Województwa Łódzkiego pod numerem 291. BTŻ Róża Wiatrów posiada gwarancję ubezpieczeniową w zakresie odpowiedzialności cywilnej z tytułu prowadzenia działalności organizatora turystyki w TUiR AXA S.A. o numerze 00.795.321 ważna od 27.03.2012 do 26.03.2013 (gwarancja obejmuje pokrycie kosztów  powrotu do kraju Klientów oraz kwoty niezbędne na pokrycie zwrotu wpłat wniesionych przez Klientów w razie niewykonania zobowiązań umownych).</p>
@@ -194,18 +206,41 @@ function generatePDFAgreement($guestid){
             <td class="text-center font10" colspan="2">Wyrażam zgodę na przetwarzanie danych osobowych w celach marketingowych zgodnie z Ustawą z dnia 29 sierpnia 1997r. Dz.U.133, pozycja 833 (wysyłka  wydawnictw reklamowych).
             </td>
         </tr>
-
+        <br /><br />
         <tr>
             <td class="text-center" colspan="2">Podpis zgłaszającego</td>
         </tr>
     </table>
 
+    <br pagebreak="true"/>
 
+    <h5 class="text-center">Szczegółowe Warunki Uczestnictwa w Imprezach Biura Turystyki Żeglarskiej Róża Wiatrów Sp. z o.o.</h5>
 
-
-
-
-
+    <ol>
+        <li>Biuro Turystyki Żeglarskiej Róża Wiatrów sp. z.o.o. wpisane jest do Rejestru Organizatorów i Pośredników Turystycznych prowadzonego przez Marszałka Województwa Łódzkiego pod numerem 291. BTŻ Róża Wiatrów  sp. z o.o. posiada gwarancję ubezpieczeniową w zakresie odpowiedzialności cywilnej z tytułu prowadzenia działalności organizatora turystyki w TUiR AXA S.A. z siedzibą w Warszawie ul. Chłodna 51 o numerze 00.795.321 ważna od 27.03.2013 do 26.03.2014 (gwarancja obejmuje pokrycie kosztów powrotu do kraju Uczestników, oraz kwoty niezbędne na pokrycie zwrotu wpłat wniesionych przez Uczestników w razie niewykonania zobowiązań umownych). Zawarcie umowy następuje po przez wypełnienie druku zgłoszenia w biurze lub na stronie internetowej przez uczestnika (jeżeli jest pełnoletni) lub jego opiekuna i przez wpłatę zaliczki. Organizator wystawia uczestnikowi po otrzymaniu wpłaty zaliczki umowę w formie pisemnej i przesyła podpisaną przez upoważnionego pracownika pocztą na podany w zgłoszeniu adres. Przy wypełnianiu druku zgłoszenia (umowy) uczestnik otrzymuje lub ma możliwość zapoznania się (wydrukowania ze strony internetowej) ze Szczegółowymi Warunkami Uczestnictwa w Imprezach i Certyfikatem OC organizatora.</li>
+        <li>Umowa obowiązuje po otrzymaniu przez organizatora wpłaty zaliczki. Uczestnik (opiekun) wpłaca zaliczkę w wysokości ustalonej dla danej imprezy. Pozostałą należność uczestnik (opiekun) jest zobowiązany wpłacić najpóźniej na 21 dni przed rozpoczęciem imprezy pod rygorem skreślenia z listy uczestników. W przypadku podpisywania umowy w terminie krótszym niż 21 dni do dnia rozpoczęcia umowy, wymagana jest pełna wpłata. Wpłat należy dokonywać:</li>
+        <ul>
+            <li>gotówką w Biurze Turystyki Żeglarskiej Róża Wiatrów sp. z o.o.  90-301 Łódź, ul. Wigury 12/3,</li>
+            <li>przelewem na konto bankowe Biura Turystyki Żeglarskiej Róża Wiatrów sp. z o.o. 90-301 Łódź, ul. Wigury 12/3, Credit Agricole 60 1940 1076 3068 6351 0000 0000,</li>
+            <li>przekazem pocztowym na adres: Biuro Turystyki Żeglarskiej Róża Wiatrów sp. z o.o. 90-301 Łódź, ul. Wigury 12/3.</li>
+            <li>Przy wpłacie z podpunktu b i c za datę wpłaty przyjmuje się datę wpływu wpłaty do organizatora.</li>
+        </ul>
+        <li>Informujemy, iż faktury vat dla uczestnika lub zakładu pracy wystawiamy niezwłocznie po zgłoszeniu BTŻ Róża Wiatrów Sp. z o.o. zapotrzebowania i przekazania wszystkich danych niezbędnych do jej wystawienia. Jednocześnie przypominamy, iż nieprzekraczalny termin wystawienia faktury vat wynosi 14 dni od daty zakończenia imprezy zgodnie z ustawą o podatku od towarów i usług oraz podatku dochodowym oraz Rozporządzeniem Ministra Finansów w sprawie niektórych przepisów ustawy o podatku od towarów i usług oraz podatku akcyzowym. Po upływie tego terminu faktury vat nie będą wystawiane.</li>
+        <li>Po zawarciu umowy uczestnik otrzymuje kartę obozową i inne niezbędne przy danej imprezie dokumenty. Organizator zaleca zawarcie dodatkowego ubezpieczenia z tytułu rezygnacji z imprezy z przyczyn losowych, a także wcześniejszego z niej powrotu. Ubezpieczenie to jest dobrowolne i nie jest wliczone w cenę imprezy. Ubezpieczenie z tytułu rezygnacji można wykupić tylko i wyłącznie w dniu zawierania umowy (opcje dodatkowe w formularzu rezerwacyjnym).</li>
+        <li>Organizator zastrzega sobie prawo do odwołania imprezy lub imprezy fakultatywnej z powodu zbyt małej liczby uczestników (poniżej 10 osób).</li>
+        <li>W przypadku rozwiązania umowy (odwołania imprezy) z winy organizatora uczestnik otrzymuje niezwłocznie zwrot pełnej wpłaconej do tego czasu kwoty lub - do wyboru - skierowanie na inną imprezę zaproponowaną przez organizatora, nie przysługuje z tego powodu żadne odszkodowanie ani odsetki.</li>
+        <li>Rezygnacja udziału uczestnika w imprezie następuje w momencie złożenia rezygnacji w formie pisemnej lub w dzień niewykonania przez uczestnika określonych w n.n. Warunkach Uczestnictwa czynności. Organizator ma prawo obciążyć uczestnika faktycznymi kosztami, jakie poniesie w związku z rezygnacją uczestnika z imprezy. Oszacowanie faktycznie poniesionych kosztów może nastąpić najpóźniej w ciągu 3 dni roboczych od dnia zakończenia imprezy turystycznej z której rezygnuje uczestnik. Takie samo uprawnienie zachowuje Organizator w sytuacji, gdy niewykonanie lub nienależyte wykonanie umowy spowodowane jest wyłącznie działaniem lub zaniechaniem uczestnika. Organizator nie będzie żądać żadnych kwot z tytułu odstąpienia od umowy, jeżeli uczestnik odstępujący od umowy wskaże osobę której przekaże uprawnienia i która przejmie obowiązki wynikające z umowy. Za nieuiszczoną część ceny imprezy turystycznej oraz koszty poniesione przez organizatora w wyniku zmiany uczestnika, uczestnik i osoba przejmująca jego uprawnienia odpowiadają solidarnie.</li>
+        <li>W przypadku sprzedaży agencyjnej uczestnika obowiązują warunki uczestnictwa bezpośredniego organizatora imprezy.</li>
+        <li>Życie na obozie lub rejsie reguluje regulamin oraz codzienne informacje podawane rano podczas odprawy załóg.</li>
+        <li>Organizator zastrzega sobie prawo do zmiany miejsca rozpoczęcia i zakończenia rejsu oraz przesunięć w terminach. W takiej sytuacji uczestnik zostanie poinformowany pocztą lub mailem. Bez wcześniejszego poinformowania uczestników nastąpić mogą zmiany godzin rozpoczęcia i zakończenia imprezy w szczególności uzależnione od godzin przyjazdu autokarów. Organizator nie odpowiada za zakłócenia w przebiegu programu imprezy spowodowane siłą wyższą.</li>
+        <li>Uczestnik (opiekun) jest zobowiązany do zapoznania się z warunkami bytowymi oferowanymi na danej imprezie (zakwaterowanie, wyżywienie, konieczność ponoszenia wysiłku podczas wiosłowania, jazdy rowerem, pracy na jachcie itp.). Podpisując zgłoszenie uczestnik (opiekun) akceptuje te warunki i uciążliwości związane z nimi nie mogą stanowić podstawy reklamacji.</li>
+        <li>Organizator nie ponosi odpowiedzialności za utratę, uszkodzenia rzeczy uczestników w szczególności sprzętu elektronicznego (aparaty fotograficzne, telefoniczne itp.). Organizator nie ponosi odpowiedzialności odszkodowawczej w stosunku do uczestników ponad kwotę rzeczywistej szkody i ogranicza ją do dwukrotności ceny imprezy.</li>
+        <li>Ewentualne reklamacje - jeżeli to możliwe - należy składać bezpośrednio na miejscu w trakcie trwania imprezy lub najpóźniej w ciągu 30 dni po jej zakończeniu w formie pisemnej pod rygorem nieważności.</li>
+        <li>Uczestnik jest zobowiązany do posiadania następujących dokumentów: dokumentu tożsamości (dowód, legitymacja), całkowicie wypełnionej karty obozowej, dokumentu zaświadczającego o posiadaniu uprawnień do korzystania z bezpłatnych usług medycznych lub polisy ubezpieczeniowej od kosztów leczenia. Brak któregokolwiek z ww. dokumentów może zostać potraktowany jak zerwanie umowy z winy uczestnika i spowodować nie przyjęcie uczestnika na imprezę.</li>
+        <li>Organizator zastrzega sobie możliwość wydalenia uczestnika z imprezy z powodu naruszenia przepisów obowiązującego prawa, regulaminów (w szczególności dotyczy spożywania i posiadania alkoholu, narkotyków i innych środków odurzających oraz samowolnych kąpieli i oddaleń) lub szczegółowych warunków uczestnictwa w imprezach. Kosztami wydalenia obciążony będzie uczestnik (opiekun).</li>
+        <li>Informujemy, że podczas kolonii, obozów i rejsów organizowanych przez Biuro Turystyki Żeglarskiej Róża Wiatrów sp. z o.o. wykonywane są pamiątkowe fotografie uczestników. W związku z tym każdy uczestnik (opiekun prawny) poprzez podpisanie niniejszych warunków uczestnictwa wyraża zgodę na nieodpłatne utrwalenie wizerunku uczestnika w formie filmu lub fotografii analogowej i cyfrowej oraz wyraża nieodpłatną zgodę na rozpowszechnianie tych materiałów za pośrednictwem dowolnego medium. W przypadku braku zgody prosimy o złożenie pisemnego oświadczenia.</li>
+        <li>W sprawach nieuregulowanych  niniejszą umową zastosowanie mają przepisy Kodeksu Cywilnego i Ustawy o Usługach Turystycznych (D.U. 2001 poz. 55.578.).</li>
+    </ol>
 
 
     <?php
