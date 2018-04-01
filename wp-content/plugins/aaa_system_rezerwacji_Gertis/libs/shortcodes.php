@@ -162,10 +162,18 @@ function gertisMainForm(){
 
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
-<!--                    LOCALHOST-->
-                        <div class="g-recaptcha" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="6LcesSATAAAAAKLNFstcDb6fhWKvXNvshHJSnXNC"></div>
-    <!--                    FREELANCELOT-->
-<!--                        <div class="g-recaptcha" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="6LcXvxgUAAAAAKQ-zHtE8Lw59insDi6rXFTREY43"></div>-->
+
+                        <?php
+                        //Localhost
+                        if($_SERVER['HTTP_HOST']=='localhost') {
+                            echo '<div class="g-recaptcha" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="6LcesSATAAAAAKLNFstcDb6fhWKvXNvshHJSnXNC"></div>';
+                        }
+                        //Production server
+                        else {
+                           echo '<div class="g-recaptcha" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback" data-sitekey="6LcXvxgUAAAAAKQ-zHtE8Lw59insDi6rXFTREY43"></div>';
+                        }
+                        ?>
+
                         <input type="hidden" class="form-control" data-recaptcha="true" required>
                         <div class="help-block with-errors"></div>
                     </div>
