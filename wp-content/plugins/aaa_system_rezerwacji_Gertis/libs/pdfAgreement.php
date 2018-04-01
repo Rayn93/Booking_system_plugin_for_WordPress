@@ -11,6 +11,9 @@ function generatePDFAgreement($guestid){
 
     $EventEntry = new Gertis_EventEntry($event_id);
 
+    $dates = $model->getEventDate($event_turn);
+    $dates = explode(" - ", $dates);
+
 
 
     // create new PDF document
@@ -32,7 +35,9 @@ function generatePDFAgreement($guestid){
 
     // set margins
 //    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-    $pdf->SetMargins(10, 10, 10, true);
+    $pdf->SetMargins(6, 5, 6, true);
+
+    $pdf->SetAutoPageBreak(TRUE, 0);
 
     // set auto page breaks
     $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -41,7 +46,7 @@ function generatePDFAgreement($guestid){
     $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
     // set font
-    $pdf->SetFont('freeserif', 12);
+    $pdf->SetFont('freeserif', 10);
 
     // add a page
     $pdf->AddPage();
@@ -55,8 +60,21 @@ function generatePDFAgreement($guestid){
 
     <style>
 
+        p,
+        table{
+            font-size: 13px;
+        }
+
+        .font10{
+            font-size: 10px;
+        }
+
         .font12{
             font-size: 12px;
+        }
+
+        .font22{
+            font-size: 16px;
         }
 
         .left{
@@ -75,6 +93,17 @@ function generatePDFAgreement($guestid){
 
         .bg-grey{
             background-color: #9fa4a9;
+        }
+
+        h3{
+            font-size: 15px;
+        }
+        h4{
+            font-size: 13px;
+        }
+
+        .text-center{
+            text-align: center;
         }
 
 
@@ -124,8 +153,55 @@ function generatePDFAgreement($guestid){
     <h4 class="bg-grey">Dane Imprezy</h4>
     <p>Kod imprezy: <?php echo $event_turn;?><br />
        Data imprezy: <?php echo $model->getEventDate($event_turn);?><br />
-
     </p>
+
+    <h4 class="bg-grey">Informacje o transporcie</h4>
+    <p>Dojazd: <?php echo $dates[0]; ?> – dokładne informacje zostaną przesłane do Państwa na 5-7 dni przed wyjazdem. <br />
+       Powrót: <?php echo $dates[1];?> – dokładne informacje zostaną przesłane do Państwa na 5-7 dni przed wyjazdem.
+    </p>
+
+    <h4 class="bg-grey">Płatności</h4>
+    <br />
+    <table>
+        <tr>
+            <td>Cena imprezy: <?php echo $EventEntry->getField('price'); ?> </td>
+            <td>Cena dojazdu: <?php echo 'brak pola';?> </td>
+            <td>Cena powrotu: <?php echo 'brak pola';?> </td>
+        </tr>
+        <tr>
+            <td><strong>Cena łączna: <?php echo $GuestEntry->getField('');?>  2212 </strong></td>
+        </tr>
+    </table>
+
+    <p>Wpłata: <?php echo $GuestEntry->getField('money'); ?> <br />
+       Dnia: <?php echo 'brak pola';?><br />
+       Pozostało do zapłaty: <?php echo ($EventEntry->getField('price')-$GuestEntry->getField('money'));?>
+       <strong>Płatne do: Pozostałą należność należy uregulować na 21 dni przed wyjazdem.</strong>
+    </p>
+    <p class="font10">Uczestnik (opiekun) poprzez wypełnienie i podpisanie Umowy Zgłoszenia oświadcza, że w  imieniu własnym i osób zgłaszanych zapoznał się z programem imprezy oraz ze stanowiącymi integralną  cześć niniejszej umowy "Szczegółowymi warunkami uczestnictwa w imprezach turystycznych organizowanych przez Biuro Turystyki Żeglarskiej Róża Wiatrów Sp. z o.o." i zobowiązuje się do ich przestrzegania. Uczestnik (opiekun) potwierdza także, że został zapoznany z informacjami dotyczącymi: przeciwwskazań zdrowotnych związanych z uczestnictwem w imprezie, możliwości ubezpieczenia się od rezygnacji. W sprawach nieuregulowanych niniejszą umową stosowane będą postanowienia Ustawy z dnia 29 sierpnia 1997r. o usługach turystycznych oraz Kodeksu Cywilnego. Podpisanie przez Uczestnika (opiekuna) niniejszego Zgłoszenia Uczestnictwa jest równoznaczne z wyrażeniem przez niego zgody na przetwarzanie danych osobowych przez Biuro Turystyki Żeglarskiej Róża Wiatrów sp. z o.o.  zgodnie z Ustawą z dnia 29 sierpnia 1997r. Dz.U.133, pozycja 833. Biuro Turystyki Żeglarskiej Róża Wiatrów Sp. z o.o.  wpisane jest do Rejestru Organizatorów i Pośredników Turystycznych prowadzonego przez Marszałka Województwa Łódzkiego pod numerem 291. BTŻ Róża Wiatrów posiada gwarancję ubezpieczeniową w zakresie odpowiedzialności cywilnej z tytułu prowadzenia działalności organizatora turystyki w TUiR AXA S.A. o numerze 00.795.321 ważna od 27.03.2012 do 26.03.2013 (gwarancja obejmuje pokrycie kosztów  powrotu do kraju Klientów oraz kwoty niezbędne na pokrycie zwrotu wpłat wniesionych przez Klientów w razie niewykonania zobowiązań umownych).</p>
+
+    <table>
+        <tr>
+            <td></td>
+            <td><img src="http://www.zdrojowainvest.pl/images/stories/Jan%20Wroblewski%20-%20skan%20podpisu%20odrecznego_08.11.2010_1.jpg" width="150" height="40" ></td>
+        </tr>
+        <tr>
+            <td>Podpis zgłaszającego</td>
+            <td>Podpis przyjmującego zgłoszenie</td>
+        </tr>
+        <br />
+        <tr>
+            <td class="text-center font10" colspan="2">Wyrażam zgodę na przetwarzanie danych osobowych w celach marketingowych zgodnie z Ustawą z dnia 29 sierpnia 1997r. Dz.U.133, pozycja 833 (wysyłka  wydawnictw reklamowych).
+            </td>
+        </tr>
+
+        <tr>
+            <td class="text-center" colspan="2">Podpis zgłaszającego</td>
+        </tr>
+    </table>
+
+
+
 
 
 
