@@ -8,7 +8,7 @@ session_start();
      * Plugin URI: http://www.robertsaternus.pl
      * Description: System rezerwacji na rejsy, dedykowany dla Gertis.
      * Author: Robert Saternus
-     * Version: 1.7
+     * Version: 1.8
      * Author URI: http://www.robertsaternus.pl
  */
 
@@ -641,7 +641,7 @@ class Gertis_booking_system{
                         $filename = 'C:\\xampp\\htdocs\\obozy-zeglarskie\\wp-content\\plugins\\aaa_system_rezerwacji_Gertis\\umowy\\'.$GuestEntry->getField('id').'-'.$GuestEntry->getField('guest_name').'-'.$GuestEntry->getField('guest_surname').'.pdf';
                     }
                     else {
-                        $filename = $_ENV["DOCUMENT_ROOT"]."/umowy".$GuestEntry->getField('id').'-'.$GuestEntry->getField('guest_name').'-'.$GuestEntry->getField('guest_surname').'.pdf';
+                        $filename = get_home_path().'umowy/'.$GuestEntry->getField('id').'-'.$GuestEntry->getField('guest_name').'-'.$GuestEntry->getField('guest_surname').'.pdf';
                     }
 
                     if(file_exists($filename)){

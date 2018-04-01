@@ -261,7 +261,7 @@ function generatePDFAgreement($guestid){
     }
 
     else {
-        $filelocation= $_ENV["DOCUMENT_ROOT"]."/umowy";
+        $filelocation= get_home_path()."umowy";
         $fileNL = $filelocation."/".$filename;
     }
 
@@ -288,7 +288,7 @@ function sendGeneratedPDF($guestid){
         $attachments = 'C:\\xampp\\htdocs\\obozy-zeglarskie\\wp-content\\plugins\\aaa_system_rezerwacji_Gertis\\umowy\\'.$GuestEntry->getField('id').'-'.$GuestEntry->getField('guest_name').'-'.$GuestEntry->getField('guest_surname').'.pdf';
     }
     else {
-        $attachments = $_ENV["DOCUMENT_ROOT"]."/umowy".$GuestEntry->getField('id').'-'.$GuestEntry->getField('guest_name').'-'.$GuestEntry->getField('guest_surname').'.pdf';
+        $attachments = get_home_path().'umowy/'.$GuestEntry->getField('id').'-'.$GuestEntry->getField('guest_name').'-'.$GuestEntry->getField('guest_surname').'.pdf';
     }
 
     return (wp_mail($to, $subject, $message, $headers = '', $attachments));

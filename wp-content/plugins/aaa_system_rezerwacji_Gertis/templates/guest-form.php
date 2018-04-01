@@ -361,9 +361,11 @@
             $filename = 'C:\\xampp\\htdocs\\obozy-zeglarskie\\wp-content\\plugins\\aaa_system_rezerwacji_Gertis\\umowy\\'.$Guest->getField('id').'-'.$Guest->getField('guest_name').'-'.$Guest->getField('guest_surname').'.pdf';
         }
         else {
-            $filename = $_ENV["DOCUMENT_ROOT"]."/umowy.$Guest->getField('id').'-'.$Guest->getField('guest_name').'-'.$Guest->getField('guest_surname').'.pdf";
+            $filename = get_home_path().'umowy/'.$Guest->getField('id').'-'.$Guest->getField('guest_name').'-'.$Guest->getField('guest_surname').'.pdf';
         }
     ?>
+
+
 
     <?php if(file_exists($filename)): ?>
         <a class="button-primary" href="<?php echo $send_pdf_url ?>">Prześlij umowę użytkownikowi</a>
