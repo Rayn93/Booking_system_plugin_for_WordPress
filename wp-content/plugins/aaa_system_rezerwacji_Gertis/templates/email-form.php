@@ -129,9 +129,10 @@ if($Email->hasId()){
         <li>br -> przejście do następnej lini (enter)</li>
         <li>a -> link</li>
         <li>img -> obrazek</li>
+        <li>Oraz wszystkie tagi potrzebne do implementacji PayPal button</li>
     </ul>
 
-    <p>W treści szablonu można również kożystać ze specjalnych wartość:</p>
+    <p>W treści szablonu można również korzystać ze specjalnych wartość:</p>
     <ul>
         <li><strong>%%IMIE%%</strong> -> zwraca imię  uczestnika</li>
         <li><strong>%%NAZWISKO%%</strong> -> zwraca nazwisko uczestnika</li>

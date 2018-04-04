@@ -88,9 +88,33 @@ class Gertis_EmailEntry{
             'img' => array(
                 'src' => array(),
                 'border' => array(),
+                'alt' => array(),
+                'width' => array(),
+                'height' => array()
+            ),
+            'form' => array(
+                'action' => array(),
+                'method' => array(),
+                'target' => array()
+            ),
+            'input' => array(
+                'type' => array(),
+                'name' => array(),
+                'value' => array(),
+                'src' => array(),
+                'border' => array(),
                 'alt' => array()
             ),
+            'select' => array(
+                'name' => array(),
+            ),
+            'option' => array(
+                'value' => array(),
+            ),
             'h1' => array(),
+            'table' => array(),
+            'tr' => array(),
+            'td' => array(),
             'h2' => array(),
             'p' => array(),
             'ul' => array(),
