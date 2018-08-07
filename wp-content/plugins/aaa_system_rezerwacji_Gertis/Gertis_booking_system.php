@@ -738,19 +738,19 @@ class Gertis_booking_system{
                         else {
                             //Przekirowanie na stronę z formularzem z informacją że rejestracja się nie powiodła
                             $_SESSION['form_error'] = 'Błąd bazy danych. Spróbuj ponownie za jakiś czas lub skontaktuj się z nami.';
-                            $this->redirect(get_site_url().'/a-system-rezerwacji/', array('code' => $event_turn));
+                            $this->redirect(get_site_url().'/a-system-rezerwacji/?code='.$GuestEntry->getField('event_turn'));
                         }
                     }
                     else {
                         //Przekirowanie na stronę z formularzem z informacją że nie przeszło walidacji
-                        $_SESSION['form_error'] = 'Formularz nie został poprawnie wypełniony. Wypełnij formularz ponownie';
-                        $this->redirect(get_site_url().'/a-system-rezerwacji/', array('code' => $event_turn));
+                        $_SESSION['form_error'] = 'Formularz nie został poprawnie wypełniony lub zapisałeś się już na obóz. W razie wątpliwości, skontaktuj się z nami.';
+                        $this->redirect(get_site_url().'/a-system-rezerwacji/?code='.$GuestEntry->getField('event_turn'));
                     }
                 }
                 else{
                     //Przekirowanie na stronę z formularzem z informacją że błędny token
                     $_SESSION['form_error'] = 'Błąd tokena. Wyczyść pliki przeglądarki i spróbuj ponownie!';
-                    $this->redirect(get_site_url().'/a-system-rezerwacji/?code=all', array('code' => $event_turn));
+                    $this->redirect(get_site_url().'/a-system-rezerwacji/?code='.$GuestEntry->getField('event_turn'));
                 }
             }
             else{
