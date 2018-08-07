@@ -156,20 +156,19 @@
             <th class="check-column"><input type="checkbox" /></th>
             <?php endif; ?>
 <!--            <th>ID</th>-->
-
-            <th>Imie</th>
-            <th>Nazwisko</th>
             <th>Kod imprezy (turnus)</th>
+            <th>Nazwisko</th>
+            <th>Imie</th>
             <th>Status</th>
-            <th>Telefon</th>
             <th>Data urodzenia</th>
-            <th>Email</th>
             <th>Pesel/ID</th>
             <th>Adres</th>
-            <th>Wpłacono</th>
-<!--            <th>Skąd wiesz?</th>-->
+            <th>Telefon</th>
+            <th>Email</th>
             <th>Uwagi dodatkowe</th>
             <th>Nasze uwagi</th>
+            <th>Wpłacono</th>
+<!--            <th>Skąd wiesz?</th>-->
             <th>Data rejestracji</th>
 
         </tr>
@@ -189,22 +188,7 @@
                     <?php endif; ?>
 
 <!--                    <td>--><?php //echo $item->id; ?><!--</td>-->
-                    <td><?php echo $item->guest_name; ?>
-                        <div class="row-actions">
-                                <span class="edit">
-                                    <a class="edit" href="<?php echo $this->getAdminPageUrl('-guests', array('view' => 'guest-form', 'guestid' => $item->id)); ?>">Edytuj</a>
-                                </span> |
-                                <?php if($item->status == 'waiting'): ?>
-                                    <span class="edit">
-                                        <?php
-                                        $token_name = $this->action_token.$item->id;
-                                        $confirm_url = $this->getAdminPageUrl('-guests', array('action' => 'confirm', 'guestid' => $item->id));
-                                        ?>
-                                        <a class="edit" href="<?php echo wp_nonce_url($confirm_url, $token_name) ?>" onclick="return confirm('Czy na pewno chcesz potwierdzić zgłoszenie tego uczestnika?')">Potwierdź</a>
-                                    </span> |
-                                <?php endif ?>
-                        </div>
-                    </td>
+                    <td><?php echo $item->event_turn; ?></td>
                     <td><?php echo $item->guest_surname; ?>
                         <div class="row-actions">
                             <span class="trash">
@@ -225,7 +209,24 @@
                             <?php endif ?>
                         </div>
                     </td>
-                    <td><?php echo $item->event_turn; ?></td>
+                    <td><?php echo $item->guest_name; ?>
+                        <div class="row-actions">
+                                <span class="edit">
+                                    <a class="edit" href="<?php echo $this->getAdminPageUrl('-guests', array('view' => 'guest-form', 'guestid' => $item->id)); ?>">Edytuj</a>
+                                </span> |
+                                <?php if($item->status == 'waiting'): ?>
+                                    <span class="edit">
+                                        <?php
+                                        $token_name = $this->action_token.$item->id;
+                                        $confirm_url = $this->getAdminPageUrl('-guests', array('action' => 'confirm', 'guestid' => $item->id));
+                                        ?>
+                                        <a class="edit" href="<?php echo wp_nonce_url($confirm_url, $token_name) ?>" onclick="return confirm('Czy na pewno chcesz potwierdzić zgłoszenie tego uczestnika?')">Potwierdź</a>
+                                    </span> |
+                                <?php endif ?>
+                        </div>
+                    </td>
+
+
                     <td>
                         <?php
                         if($item->status == 'waiting') echo 'Oczekuje';
@@ -237,15 +238,19 @@
                         else if($item->status == 'old') echo 'Zakończony';
                         ?>
                     </td>
-                    <td><?php echo $item->phone; ?></td>
                     <td><?php echo $item->birth_date; ?></td>
-                    <td><?php echo $item->email; ?></td>
                     <td><?php echo $item->personal_no; ?></td>
                     <td class="nocenter">
                         <?php echo $item->street; ?>
                         <?php echo $item->zip_code; ?>
                         <?php echo $item->city; ?>
                     </td>
+                    <td><?php echo $item->phone; ?></td>
+                    <td><?php echo $item->email; ?></td>
+                    <td><?php echo $trimmed = wp_trim_words( $item->more_info, $num_words = 10, $more = null ); ?> </td>
+                    <td><?php echo $item->staff_info; ?></td>
+
+
                     <td><?php echo $item->money; ?>
                         <div class="row-actions">
                             <?php if($item->status == 'confirm'): ?>
@@ -269,8 +274,6 @@
                         </div>
                     </td>
 <!--                    <td>--><?php //echo $item->from_who; ?><!--</td>-->
-                    <td><?php echo $trimmed = wp_trim_words( $item->more_info, $num_words = 10, $more = null ); ?> </td>
-                    <td><?php echo $item->staff_info; ?></td>
                     <td><?php echo $item->register_date; ?></td>
 
                 </tr>

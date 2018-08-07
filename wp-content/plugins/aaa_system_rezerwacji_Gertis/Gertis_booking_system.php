@@ -8,7 +8,7 @@ session_start();
      * Plugin URI: http://www.robertsaternus.pl
      * Description: System rezerwacji na rejsy, dedykowany dla Gertis.
      * Author: Robert Saternus
-     * Version: 1.8
+     * Version: 1.9
      * Author URI: http://www.robertsaternus.pl
  */
 
@@ -26,7 +26,7 @@ require_once 'libs/cron-schedules.php';
 class Gertis_booking_system{
 
     private static $plugin_id = 'gertis-book-system';
-    private $plugin_version = '1.7.0';
+    private $plugin_version = '1.9.0';
     private $user_capability = 'edit_pages';
     private $model;
     private $action_token = 'gertis-bs-action';

@@ -208,11 +208,31 @@ function gertisMainForm(){
                     <div class="col-sm-offset-3 col-sm-9">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" required> Znam i akceptuję <a class="credential" href="http://www.obozy-zeglarskie.pl/ogolne-warunki-uczestnictwa/" target="_blank">warunki uczestnictwa w imprezie</a>
+                                <input type="checkbox" required> Znam i akceptuję <a class="credential" href="https://www.obozy-zeglarskie.pl/ogolne-warunki-uczestnictwa/" target="_blank">warunki uczestnictwa w imprezie</a>
                             </label>
                         </div>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" required> Informujemy, że przetwarzamy Twoje dane osobowe w związku z zawarciem umowy zgodnie z <a class="credential" href="https://www.obozy-zeglarskie.pl/polityka-prywatnosci/" target="_blank">polityką prywatności</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+<!--                <div class="form-group">-->
+<!--                    <div class="col-sm-offset-3 col-sm-9">-->
+<!--                        <div class="checkbox">-->
+<!--                            <label>-->
+<!--                                <input type="checkbox" required>  Wyrażam zgodę na otrzymywanie newslettera i informacji handlowych od BTA Gertis. Zgoda jest dobrowolna. Mam prawo cofnąć zgodę w każdym czasie (dane przetwarzane są do czasu cofnięcia zgody). Mam prawo dostępu do danych, sprostowania, usunięcia lub ograniczenia przetwarzania, prawo sprzeciwu, prawo wniesienia skargi do organu nadzorczego lub przeniesienia danych. Administratorem danych jest BTA Gertis Marek Makowski.</a>-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
