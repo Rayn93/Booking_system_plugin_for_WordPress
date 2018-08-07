@@ -784,5 +784,14 @@ class Gertis_BookingSystem_Model{
 
     }
 
+    //Sprawdza czy uczestnik o takiem imieniu, nazwisku i dacie urodzenia istnieje. Jeżeli nie istnieje to zwraca NULL
+    function checkGuestExist($name, $surname, $birth_date){
+        $table_name = $this->getTableNameGuest();
+        $sql = 'SELECT * FROM '.$table_name.' WHERE guest_name="'.$name.'" AND guest_surname="'.$surname.'" AND birth_date="'.$birth_date.'" ';
+        return $this->wpdb->get_var($sql);
+    }
+
+
+
 
 }
