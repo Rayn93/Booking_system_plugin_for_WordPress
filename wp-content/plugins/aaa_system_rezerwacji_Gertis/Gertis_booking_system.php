@@ -721,7 +721,11 @@ class Gertis_booking_system{
                                 'street' => $GuestEntry->getField('street'),
                                 'zip_code' => $GuestEntry->getField('zip_code'),
                                 'birth_date' => $GuestEntry->getField('birth_date'),
+                                'from_who' => $GuestEntry->getField('from_who'),
+                                'more_info' => $GuestEntry->getField('more_info'),
+                                'register_date' => $GuestEntry->getField('register_date'),
                             );
+
                             $this->sendEmail('registration_guest', $GuestEntry->getField('email'), $mail_params);
                             $this->sendEmail('registration_admin', $this->getAdminEmail(), $mail_params);
 
@@ -1087,6 +1091,8 @@ class Gertis_booking_system{
                                 <li>Telefon: '.$mail_params['phone'].'</li>
                                 <li>Pesel / Nr dowodu: '.$mail_params['personal_no'].'</li>
                                 <li>Adres zamieszkania: '.$mail_params['street'].' '.$mail_params['zip_code'].' '.$mail_params['city'].'</li>
+                                <li>Skąd o nas wie?: '.$mail_params['from_who'].'</li>
+                                <li>Dodatkowe informacje: '.$mail_params['more_info'].'</li>                                                              
                              </ul>';
                 $message .= '<p>W systemie rezerwacji możesz znaleść więcej informacji o nowej rejestracji: '. $link_to_members.' </p>';
                 $message .= '<p>Udanego dnia <br /> System rezerwacji Gertis</p>';

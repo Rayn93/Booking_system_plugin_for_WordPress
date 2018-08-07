@@ -561,7 +561,7 @@ class Gertis_BookingSystem_Model{
     function countTakenSeats($event_turn){
 
         $table_name = $this->getTableNameGuest();
-        $sql = 'SELECT COUNT(event_turn) FROM '.$table_name.' WHERE event_turn="'.$event_turn.'" AND status IN ("waiting", "confirm", "advance", "paid")';
+        $sql = 'SELECT COUNT(event_turn) FROM '.$table_name.' WHERE event_turn="'.$event_turn.'" AND status IN ("confirm", "advance", "paid")';
         return $this->wpdb->get_var($sql);
     }
 
