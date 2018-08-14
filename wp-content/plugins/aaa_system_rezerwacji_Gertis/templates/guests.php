@@ -170,7 +170,7 @@
             <th>Wpłacono</th>
 <!--            <th>Skąd wiesz?</th>-->
             <th>Data rejestracji</th>
-            <th>Newsletter</th>
+            <th>News</th>
 
         </tr>
         </thead>

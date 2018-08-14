@@ -347,7 +347,7 @@ class Gertis_GuestEntry{
 
         $Model = new Gertis_BookingSystem_Model();
 
-        if($Model->checkGuestExist($this->guest_name, $this->guest_surname, $this->birth_date, $this->event_turn) != NULL){
+        if($Model->checkGuestExist($this->guest_name, $this->guest_surname, $this->birth_date, $this->event_turn) != NULL && $this->exists == NULL){
             $this->setError('guest_name', 'Taki uczestnik już istnieje');
         }
 
