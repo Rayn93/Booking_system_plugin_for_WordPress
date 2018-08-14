@@ -19,6 +19,7 @@ class Gertis_GuestEntry{
     private $status = 'waiting';
     private $staff_info = NULL;
     private $register_date = NULL;
+    private $newsletter = NULL;
 
     private $errors = array();
     private $exists = FALSE;
@@ -60,6 +61,10 @@ class Gertis_GuestEntry{
             $this->{$key} = $val;
         }
     }
+
+//    function setNewsletter($value){
+//        $this->newsletter = $value;
+//    }
 
     function hasId(){
         return isset($this->id);

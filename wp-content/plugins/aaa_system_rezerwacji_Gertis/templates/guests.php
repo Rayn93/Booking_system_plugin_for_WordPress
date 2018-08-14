@@ -170,6 +170,7 @@
             <th>Wpłacono</th>
 <!--            <th>Skąd wiesz?</th>-->
             <th>Data rejestracji</th>
+            <th>Newsletter</th>
 
         </tr>
         </thead>
@@ -275,6 +276,13 @@
                     </td>
 <!--                    <td>--><?php //echo $item->from_who; ?><!--</td>-->
                     <td><?php echo $item->register_date; ?></td>
+
+                    <td>
+                        <?php
+                        if($item->newsletter == 0 || $item->newsletter == null) echo 'Nie';
+                        else echo 'Tak';
+                        ?>
+                    </td>
 
                 </tr>
 

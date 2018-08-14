@@ -49,6 +49,7 @@ class Gertis_BookingSystem_Model{
                 money INT DEFAULT NULL,
                 status enum("waiting", "confirm", "resign", "old", "advance", "paid", "send") NOT NULL DEFAULT "waiting",
                 register_date DATE NOT NULL,
+                newsletter tinyint(1) DEFAULT 0,
                 PRIMARY KEY(id)
             )ENGINE=InnoDB DEFAULT CHARSET=utf8';
 
@@ -158,10 +159,11 @@ class Gertis_BookingSystem_Model{
             'money' => $GuestEntry->getField('money'),
             'status' => $GuestEntry->getField('status'),
             'register_date' => $GuestEntry->getField('register_date'),
+            'newsletter' => $GuestEntry->getField('newsletter'),
         );
 
 
-        $maps = array('%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s');
+        $maps = array('%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%d');
 
         $table_name = $this->getTableNameGuest();
 

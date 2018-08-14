@@ -224,15 +224,15 @@ function gertisMainForm(){
                     </div>
                 </div>
 
-<!--                <div class="form-group">-->
-<!--                    <div class="col-sm-offset-3 col-sm-9">-->
-<!--                        <div class="checkbox">-->
-<!--                            <label>-->
-<!--                                <input type="checkbox" required>  Wyrażam zgodę na otrzymywanie newslettera i informacji handlowych od BTA Gertis. Zgoda jest dobrowolna. Mam prawo cofnąć zgodę w każdym czasie (dane przetwarzane są do czasu cofnięcia zgody). Mam prawo dostępu do danych, sprostowania, usunięcia lub ograniczenia przetwarzania, prawo sprzeciwu, prawo wniesienia skargi do organu nadzorczego lub przeniesienia danych. Administratorem danych jest BTA Gertis Marek Makowski.</a>-->
-<!--                            </label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="front_entry[newsletter]" value=1>  Wyrażam zgodę na otrzymywanie newslettera i informacji handlowych od BTA Gertis. Zgoda jest dobrowolna. Mam prawo cofnąć zgodę w każdym czasie (dane przetwarzane są do czasu cofnięcia zgody). Mam prawo dostępu do danych, sprostowania, usunięcia lub ograniczenia przetwarzania, prawo sprzeciwu, prawo wniesienia skargi do organu nadzorczego lub przeniesienia danych. Administratorem danych jest BTA Gertis Marek Makowski.
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">

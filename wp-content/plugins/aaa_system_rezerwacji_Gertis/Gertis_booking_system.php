@@ -702,6 +702,11 @@ class Gertis_booking_system{
 
                     $GuestEntry->setFields($_POST['front_entry']);
 
+//                    if(isset($_POST['front_entry[newsletter]']) ){
+//                        $GuestEntry->setNewsletter(1);
+//                    }
+
+
                     if ($GuestEntry->validate()) {
 
                         $entry_id = $this->model->saveGuestEntry($GuestEntry);
